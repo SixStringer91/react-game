@@ -1,0 +1,45 @@
+.MainMenu{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.chosen{
+  background-color:yellow;
+}
+.title{
+ text-align: center;
+}
+
+.menuItems{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.items{
+  display: inline-block;
+  text-decoration: none;
+  
+}
+ 
+a {
+  background-color: red;
+  color: white;
+  padding: 1em 1.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+/*
+a:hover {
+  background-color: #555;
+}
+
+a:active {
+  background-color: black;
+}
+
+a:visited {
+  background-color: #ccc;
+} */

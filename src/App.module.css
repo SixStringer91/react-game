@@ -1,0 +1,17 @@
+.gameArea{
+  position: relative;
+  margin: 0 auto;
+  border: 10px solid gray;
+  width: 768px;
+  height: 768px;
+}
+
+.title{
+  margin: 0 auto;
+}
+
+
+.counter{
+  margin-top: 10px;
+}
+

@@ -1,0 +1,19 @@
+.snake{
+  background-image: url('../../img/snake.png');
+  opacity:1
+}
+
+.active{
+transition: all .08s;
+}
+
+/* @keyframes fadeIn {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
+} */
