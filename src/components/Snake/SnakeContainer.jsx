@@ -3,20 +3,38 @@ import './Snake.css'
 import Snake from './Snake'
 
 export default class SnakeContainer extends React.Component {
+ constructor(props){
+   super(props)
+   this.state = { 
+    defaultStyles: {
+    boxSizing: 'border-box',
+    position: 'absolute',
+    width: `${this.props.blockSize}px`,
+    height: `${this.props.blockSize}px`,
+    zIndex: '2',
+    backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
+}
+ }
+ }
+
+  componentDidMount(){
+    this.buttonListener();
+  }
 
   componentDidUpdate() {
-    this.buttonListener();
-    this.setCollisions(this.wallsChecker)
+    this.setCollisions(this.wallsChecker);
   }
 
   setCollisions = (callback) => {
-    const snake = [...this.props.state.snake];
-    const { apple } = this.props.state;
-    const { x, y } = snake[snake.length - 1];
-    const wallsCheck = callback(x, y, this.props.areaSizeInBlocks);
+    const { apple,snake} = this.props.state;
+    const head = snake[snake.length-1]
+    const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
+    if(apple.x===head.x&&apple.y===head.y){
+      this.props.stateUpdater('snakeEat')
+    }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {
-      if (i < arr.length - 1) {
-        if (el.x === x && el.y === y) return el;
+    if (i < arr.length - 1) {
+        if (el.x === head.x && el.y === head.y) return el;
       }
     });
     if (selfCollision) {
@@ -29,6 +47,7 @@ export default class SnakeContainer extends React.Component {
       };
       this.props.stateUpdater('snake', [...snake]);
     }
+
   }
 
   wallsChecker = (x, y, areaSizeInBlocks) => {
@@ -58,17 +77,27 @@ export default class SnakeContainer extends React.Component {
     });
   }
 
+  snakeMapping = (segments, blockSize) => {
+    return segments.map((el, i) => {
+      const styles = {
+        top: `${el.y * blockSize}px`,
+        left: `${el.x * blockSize}px`,
+        backgroundPosition: `${blockSize * el.pic[0]}px ${blockSize * el.pic[1]}px`
+
+      }
+      return <div className={`snake`} key={i} style={{ ...this.state.defaultStyles, ...styles }} />
+    })
+  }
+
   render() {
 
-    const { snake } = this.props.state;
-
-
+    const { state:{snake}, blockSize } = this.props;
+    const segments = this.snakeMapping(snake,blockSize)
     return (
       <>
         <Snake
-          style={{ width: `${this.props.blockSize}px`, heigth: `${this.props.blockSize}px` }}
-          blockSize={this.props.blockSize}
-          segments={snake}
+          style={{ width: `${blockSize}px`, heigth: `${blockSize}px` }}
+          segments={segments}
         />
       </>
     )

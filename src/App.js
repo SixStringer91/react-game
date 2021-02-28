@@ -14,16 +14,13 @@ class App extends React.Component {
 			snakeLength:3
 		};
 	}
-
 	makeChange = ({ type, state }) => {
 		this.setState({ [type]: state });
 	};
-
-
-
 	render() {
 		const {gameStart,mode, difficult, areaSize } = this.state;
 		return (
+			<div className={css.backGround}>
 			<div className = {css.gameArea}>
 					{gameStart ? (
 						<>
@@ -36,6 +33,7 @@ class App extends React.Component {
 							type={{ mode, difficult, areaSize }}
 						/>
 					)}
+			</div>
 			</div>
 		);
 	}

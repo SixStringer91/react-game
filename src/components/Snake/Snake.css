@@ -1,6 +1,6 @@
 .snake{
   background-image: url('../../img/snake.png');
-  opacity:1
+  opacity:1;
 }
 
 .active{

@@ -8,20 +8,7 @@ class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			snake: [
-				{ x: 0, y: 1, pic: [2, 4], neckActive: true },
-				{ x: 1, y: 1, pic: [2, 4], neckActive: true },
-				{ x: 2, y: 1, pic: [1, 4], neckActive: true },
-			],
-			apple: {x:0,y:0},
-			cyberSnake: [
-				{ x: 0, y: 1},
-				{ x: 1, y: 1},
-				{ x: 2, y: 1},
-			],
 			areaSizePx: 768,
-			delta: 10,
-			areaSizeInBlocks: 10,
 			gameStart: false,
 		};
 		this.prevKey = "d";
@@ -35,41 +22,52 @@ class Game extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState(this.setGameMode(), () =>{
-			this.loop(this.snakeEngine)
-		}
-		);
+		this.setState(this.setGameMode(), () => {
+			this.loop(this.snakeEngine);
+		});
 	}
-
 
 	setGameMode = () => {
 		const { mode, difficult, areaSize, gameStart } = this.props.gameMode;
-		this.nextAppleDirection = null
-		let modeState, delta, areaSizeInBlocks;
+		const init = { gameStart };
+		// let modeState, delta, areaSizeInBlocks;
 		switch (difficult) {
 			case "Easy":
-				delta = 33;
+				init.delta = 53;
 				break;
 			case "Normal":
-				delta = 25;
+				init.delta = 25;
 				break;
 			case "Hard":
-				delta = 15;
+				init.delta = 0;
 				break;
 		}
 		switch (areaSize) {
 			case "Small":
-				areaSizeInBlocks = 10;
+				init.areaSizeInBlocks = 10;
 				break;
 			case "Normal":
-				areaSizeInBlocks = 30;
+				init.areaSizeInBlocks = 30;
 				break;
 			case "Big":
-				areaSizeInBlocks = 50;
+				init.areaSizeInBlocks = 50;
 				break;
 		}
+		init.apple = {};
+		if (mode === "Single" || mode === "Versus")
+			init.snake = [
+				{ x: 0, y: 1, pic: [2, 4] },
+				{ x: 1, y: 1, pic: [2, 4] },
+				{ x: 2, y: 1, pic: [1, 4] },
+			];
+		if (mode === "Versus" || mode === "Autoplay")
+			init.cyberSnake = [
+				{ x: init.areaSizeInBlocks - 1, y: init.areaSizeInBlocks - 1 },
+				{ x: init.areaSizeInBlocks - 2, y: init.areaSizeInBlocks - 1 },
+				{ x: init.areaSizeInBlocks - 3, y: init.areaSizeInBlocks - 1 },
+			];
 
-		return {delta, areaSizeInBlocks, gameStart};
+		return init;
 	};
 
 	loop = (callback) => {
@@ -84,7 +82,6 @@ class Game extends React.Component {
 			this.oldTime = this.currentTime;
 		}
 		if (this.currentTime - this.oldTime >= this.state.delta) {
-	
 			callback();
 			this.oldTime = this.currentTime;
 		}
@@ -94,56 +91,55 @@ class Game extends React.Component {
 	stateUpdater = (type, data) => {
 		switch (type) {
 			case "apple":
-				this._isToShift = false;
 				this.nextAppleDirection = data;
 				// if(prevApple) this.nextCyberHead = prevApple;
 				break;
 			case "snake":
-				this.setState({ [type]: [...data] });
+				// this.setState({ [type]: [...data] });
 				break;
 			case "game-loop":
 				this._gameLoop = false;
 				break;
-			case "isToShift":
-				this._isToShift = false;
-				break;
 			case "cyberSnake":
 				this.nextCyberHead = data;
 				break;
-			case 'cyberSnakeEat':
-				this._cyberUnshift = data
+			case "cyberSnakeEat":
+				if (this.state.cyberSnake.length < this.state.areaSizeInBlocks - 1)
+					this._cyberUnshift = data;
+				break
+			case "snakeEat":
+				if (this.state.snake.length < this.state.areaSizeInBlocks - 1)
+					this._isToShift = false;
+				break;
 		}
 	};
 
 	snakeEngine = () => {
-	const objState = {}
-  if(this.nextAppleDirection) {
-		objState.apple = this.nextAppleDirection;
-		this.nextAppleDirection = null;
-		};
-	if(this.state.apple&&this.nextCyberHead){
-	// objState.snake = this.playerUpdater()
-	objState.cyberSnake = this.cyborgUpdater().cyberSnake;
-}
-	this.setState({...objState})
+		const objState = {};
+		if (this.nextAppleDirection) {
+			objState.apple = this.nextAppleDirection;
+			this.nextAppleDirection = null;
+		}
+		if (this.state.snake) objState.snake = this.playerUpdater().snake;
+		if (this.state.cyberSnake)
+			objState.cyberSnake = this.cyborgUpdater().cyberSnake;
+		this.setState({ ...objState });
 	};
 
-	cyborgUpdater = ()=>{
+	cyborgUpdater = () => {
 		const cyberSnake = [...this.state.cyberSnake];
 		const head = cyberSnake[cyberSnake.length - 1];
-		const {x,y} = this.renderPartsOfSnake(head,this.nextCyberHead);
+		const { x, y } = this.renderPartsOfSnake(head, this.nextCyberHead);
 
 		// const cyberSnake = [...this.state.cyberSnake];
-		this._cyberUnshift ? this._cyberUnshift = false : cyberSnake.shift()
+		this._cyberUnshift ? (this._cyberUnshift = false) : cyberSnake.shift();
 		//   cyberSnake.push(this.nextCyberHead)
 		// 	this.nextAppleDirection = null;
 		// }
-		return {cyberSnake:[...cyberSnake, {x,y}]}
-	}
+		return { cyberSnake: [...cyberSnake, { x, y }] };
+	};
 
-
-
-	playerUpdater = ()=>{
+	playerUpdater = () => {
 		const snake = [...this.state.snake];
 		const head = snake[snake.length - 1];
 		const neck = snake[snake.length - 2];
@@ -153,7 +149,7 @@ class Game extends React.Component {
 			neckPic: neck.pic,
 			tailPic: tail.pic,
 		};
-		const { x, y } = this.renderPartsOfSnake(head,this.nextKey,body);
+		const { x, y } = this.renderPartsOfSnake(head, this.nextKey, body);
 		if (this._isToShift) snake.shift();
 		else {
 			this._isToShift = true;
@@ -164,54 +160,58 @@ class Game extends React.Component {
 			...snake[snake.length - 1],
 			pic: body.neckPic,
 		};
-		return{snake: [...snake, { x, y, pic: body.headPic }]};
-	}
+		return { snake: [...snake, { x, y, pic: body.headPic }] };
+	};
 
-	renderPartsOfSnake = (head,key, body) => {
+	renderPartsOfSnake = (head, key, body) => {
 		let x = head.x;
 		let y = head.y;
-		const size = this.state.areaSizeInBlocks-1;
+		const size = this.state.areaSizeInBlocks - 1;
 		switch (key) {
 			case "w":
-				y = (head.y - 1)<0?size:head.y - 1;
-				
-				if(body){
-				body.headPic = [2, 4];
-				if (this.prevKey !== key) {
-					this.prevKey === "a"
-						? (body.neckPic = [5, 3])
-						: (body.neckPic = [3, 2]);
-				} else body.neckPic = [3, 3];}
+				y = head.y - 1 < 0 ? size : head.y - 1;
+
+				if (body) {
+					body.headPic = [2, 4];
+					if (this.prevKey !== key) {
+						this.prevKey === "a"
+							? (body.neckPic = [5, 3])
+							: (body.neckPic = [3, 2]);
+					} else body.neckPic = [3, 3];
+				}
 				break;
 			case "a":
-				x = (head.x - 1)<0?size:head.x - 1;
-				if(body){
-				body.headPic = [2, 3];
-				if (this.prevKey !== key) {
-					this.prevKey === "s"
-						? (body.neckPic = [3, 2])
-						: (body.neckPic = [3, 4]);
-				} else body.neckPic = [4, 4];}
+				x = head.x - 1 < 0 ? size : head.x - 1;
+				if (body) {
+					body.headPic = [2, 3];
+					if (this.prevKey !== key) {
+						this.prevKey === "s"
+							? (body.neckPic = [3, 2])
+							: (body.neckPic = [3, 4]);
+					} else body.neckPic = [4, 4];
+				}
 				break;
 			case "s":
-				y = head.y + 1>size?0:head.y + 1;
-				if(body){
-				body.headPic = [1, 3];
-				if (this.prevKey !== key) {
-					this.prevKey === "a"
-						? (body.neckPic = [5, 4])
-						: (body.neckPic = [3, 4]);
-				} else body.neckPic = [3, 3];}
+				y = head.y + 1 > size ? 0 : head.y + 1;
+				if (body) {
+					body.headPic = [1, 3];
+					if (this.prevKey !== key) {
+						this.prevKey === "a"
+							? (body.neckPic = [5, 4])
+							: (body.neckPic = [3, 4]);
+					} else body.neckPic = [3, 3];
+				}
 				break;
 			case "d":
-				x = head.x + 1>size?0:head.x+1;
-				if(body){
-				body.headPic = [1, 4];
-				if (this.prevKey !== this.nextKey) {
-					this.prevKey === "s"
-						? (body.neckPic = [5, 3])
-						: (body.neckPic = [5, 4]);
-				} else body.neckPic = [4, 4];}
+				x = head.x + 1 > size ? 0 : head.x + 1;
+				if (body) {
+					body.headPic = [1, 4];
+					if (this.prevKey !== this.nextKey) {
+						this.prevKey === "s"
+							? (body.neckPic = [5, 3])
+							: (body.neckPic = [5, 4]);
+					} else body.neckPic = [4, 4];
+				}
 				break;
 		}
 		return { x, y };
@@ -228,7 +228,7 @@ class Game extends React.Component {
 			areaSizePx,
 			areaSizeInBlocks,
 			gameStart,
-			cyberSnake
+			cyberSnake,
 		} = this.state;
 		const blockSize = areaSizePx / areaSizeInBlocks;
 		return (
@@ -238,34 +238,35 @@ class Game extends React.Component {
 						className={css.gameArea}
 						style={{ width: `${areaSizePx}px`, height: `${areaSizePx}px` }}
 					>
-						{/* <SnakeContainer
-					buttonListener={this.buttonListener}
-					stateUpdater={this.stateUpdater}
-					prevKey={this.prevKey}
-					nextKey={this.nextKey}
-					state={{ apple, snake }}
-					blockSize={blockSize}
-					areaSizeInBlocks={areaSizeInBlocks}
-				/> */}
+						{snake ? (
+							<SnakeContainer
+								buttonListener={this.buttonListener}
+								stateUpdater={this.stateUpdater}
+								prevKey={this.prevKey}
+								nextKey={this.nextKey}
+								state={{ apple, snake }}
+								blockSize={blockSize}
+								areaSizeInBlocks={areaSizeInBlocks}
+							/>
+						) : null}
 
-						<CybersnakeContainer
-							apple={apple}
-							snake={snake}
-							cyberSnake = {cyberSnake}
-							stateUpdater={this.stateUpdater}
-							blockSize = {blockSize}
-							areaSizeInBlocks={areaSizeInBlocks}
-						/>
+						{cyberSnake ? (
+							<CybersnakeContainer
+								apple={apple}
+								snake={snake}
+								cyberSnake={cyberSnake}
+								stateUpdater={this.stateUpdater}
+								blockSize={blockSize}
+								areaSizeInBlocks={areaSizeInBlocks}
+							/>
+						) : null}
 
-						
-							<AppleContainer
+						<AppleContainer
 							stateUpdater={this.stateUpdater}
 							state={{ apple, snake, cyberSnake }}
 							blockSize={blockSize}
 							areaSizeInBlocks={areaSizeInBlocks}
 						/>
-
-					
 					</div>
 				) : (
 					<img></img>
