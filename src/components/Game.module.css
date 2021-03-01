@@ -1,6 +1,43 @@
-.gameArea{
+@font-face {
+  font-family: "Streamster";
+  src: url("../fonts/Streamster.woff2") format("woff2"),
+    url("../fonts/Streamster.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "RoadRage";
+  src: url("../fonts/RoadRage.woff2") format("woff2"),
+    url("../fonts/RoadRage.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neon";
+  src: url("../fonts/Neon.woff2") format("woff2"),
+    url("../fonts/Neon.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+.gameArea{
  width: 100%;
  height: 100%;
+}
 
+.playerScore{
+  display: flex;
+}
+
+.playerScore div{
+  opacity: 0.6;
+color: #D70865;
+font-size: 30px;
+margin-left: 10px;
+font-family: "Neon";
 }

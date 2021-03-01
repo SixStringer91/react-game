@@ -30,6 +30,7 @@ export default class SnakeContainer extends React.Component {
     const head = snake[snake.length-1]
     const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
     if(apple.x===head.x&&apple.y===head.y){
+      debugger
       this.props.stateUpdater('snakeEat')
     }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {

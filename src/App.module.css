@@ -5,23 +5,25 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: #12B3E4;
-  box-shadow: 0 -150px 70px -120px #1373DF inset,
-              0 -220px 70px -120px #1439DA inset,
-              0 -280px 70px -120px #1439DA inset;
-  animation: background 10s infinite alternate;
+  background: #370982;
+  box-shadow: 0 -140px 70px -120px #D70865 inset,
+              0 -210px 70px -120px #8D127A inset,
+              0 -280px 70px -120px #430987 inset;
+  /* animation: background 10s infinite alternate; */
   
 }
 
 
+
 @keyframes background {
   50% {
-    background: #370982;
-    box-shadow: 0 -140px 70px -120px #D70865 inset,
-                0 -210px 70px -120px #8D127A inset,
-                0 -280px 70px -120px #430987 inset;
+    background: #12B3E4;
+  box-shadow: 0 -150px 70px -120px #1373DF inset,
+              0 -220px 70px -120px #1439DA inset,
+              0 -280px 70px -120px #1439DA inset;
   }
 }
+
 
 .gameArea{
   position: relative;

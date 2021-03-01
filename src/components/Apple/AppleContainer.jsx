@@ -12,21 +12,18 @@ export default class AppleContainer extends React.Component {
   componentDidUpdate({ state: { apple: prevApple } }) {
     const { apple, snake, cyberSnake } = this.props.state
     if(snake){
-    if (apple.x === snake[snake.length - 1].x && apple.y === snake[snake.length - 1].y) {
-      this.isCollision(this.props.state.snake);
+      this.isCollision(snake);
     }
-  }
+  
   if(cyberSnake){
-      if (apple.x === cyberSnake[cyberSnake.length - 1].x && apple.y === cyberSnake[cyberSnake.length - 1].y) {
-        this.isCollision(this.props.state.cyberSnake, prevApple);
-      }
+      this.isCollision(cyberSnake);   
     }
   }
-  isCollision = (snake, prevApple) => {
+  isCollision = (someSnake) => {
     const { apple } = this.props.state;
-    const { x, y } = snake[snake.length - 1];
+    const { x, y } = someSnake[someSnake.length - 1];
     if (y === apple.y && x === apple.x) {
-      this.props.stateUpdater('apple', this.appleNewDirection(), prevApple)
+      this.props.stateUpdater('apple', this.appleNewDirection())
     }
 
   }
