@@ -3,38 +3,45 @@ import './Snake.css'
 import Snake from './Snake'
 
 export default class SnakeContainer extends React.Component {
- constructor(props){
-   super(props)
-   this.state = { 
-    defaultStyles: {
-    boxSizing: 'border-box',
-    position: 'absolute',
-    width: `${this.props.blockSize}px`,
-    height: `${this.props.blockSize}px`,
-    zIndex: '2',
-    backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
-}
- }
- }
+  constructor(props) {
+    super(props)
+    this.state = {
+      defaultStyles: {
+        boxSizing: 'border-box',
+        position: 'absolute',
+        width: `${this.props.blockSize}px`,
+        height: `${this.props.blockSize}px`,
+        zIndex: '2',
+        backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
+      }
+    }
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     this.buttonListener();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(preProps) {
     this.setCollisions(this.wallsChecker);
+    if (preProps.blockSize !== this.props.blockSize) {
+      this.setState({
+        defaultStyles: {
+          ...this.state.defaultStyles, width: `${this.props.blockSize}px`,
+          height: `${this.props.blockSize}px`, backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
+        }
+      })
+    }
   }
 
   setCollisions = (callback) => {
-    const { apple,snake} = this.props.state;
-    const head = snake[snake.length-1]
+    const { apple, snake } = this.props.state;
+    const head = snake[snake.length - 1]
     const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
-    if(apple.x===head.x&&apple.y===head.y){
-      debugger
+    if (apple.x === head.x && apple.y === head.y) {
       this.props.stateUpdater('snakeEat')
     }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {
-    if (i < arr.length - 1) {
+      if (i < arr.length - 1) {
         if (el.x === head.x && el.y === head.y) return el;
       }
     });
@@ -92,8 +99,8 @@ export default class SnakeContainer extends React.Component {
 
   render() {
 
-    const { state:{snake}, blockSize } = this.props;
-    const segments = this.snakeMapping(snake,blockSize)
+    const { state: { snake }, blockSize } = this.props;
+    const segments = this.snakeMapping(snake, blockSize)
     return (
       <>
         <Snake

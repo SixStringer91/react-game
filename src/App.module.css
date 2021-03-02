@@ -1,10 +1,11 @@
 
 .backGround{
-  height:100vh;
+  min-height:100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  width: 100%;
+  flex-direction: column;
+  min-width: 100%;
   background: #370982;
   box-shadow: 0 -140px 70px -120px #D70865 inset,
               0 -210px 70px -120px #8D127A inset,
@@ -26,8 +27,8 @@
 
 
 .gameArea{
+  margin-top: 80px;
   position: relative;
-  margin: 0 auto;
   border: 10px solid #1373DF;
   border-radius:20px;
   width: 768px;
@@ -35,17 +36,55 @@
   background: rgba(18, 179, 228, 0.2);;
 }
 
-.title{
- 
+.footer{
+  height: 60px;
+  width: 100%;
+  margin-top: auto;
+}
+.container{
+  height: 100%;
+  width: 700px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container div{
+  height: 90%;
+}
+.me img {
+  border-radius: 50%;
+}
+.container img {
+  height: 90%;
+  display: block;
 }
 
-.title h1 {
-  font-family: "RoadRage";
+@media (max-width: 1024px){
+
+  .gameArea{
+    margin-top:40px;
+    border: 5px solid #1373DF;
+    border-radius:10px;
+    width: 680px;
+    height: 680px;
+  }
+  .container{
+    height: 100%;
+    width: 650px;
+  }
 }
+@media (max-width: 680px){
 
+  .gameArea{
+    border: 5px solid #1373DF;
+    border-radius:10px;
+    width: 500px;
+    height: 500px;
+  }
+  .container{
+    height: 100%;
+    width: 480px;
+  }
 
-.counter{
-  margin-top: 10px;
 }
-

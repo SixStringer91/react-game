@@ -1,0 +1,33 @@
+import React from "react";
+import bang from '../../img/bubble-chat.svg'
+import css from './Bang.module.css'
+
+
+
+const Bang = ({blockSize,bangCoords,stateUpdater})=>{
+const coords = {
+left: `${(bangCoords.x-1)*blockSize}px`,
+top: `${(bangCoords.y-1)*blockSize}px`,
+width:`${blockSize*3}px`,
+height:`${blockSize*3}px`
+}
+
+return (<>
+<div className={css.gameOverWrapper}>
+<div className={css.gameOverTitle}>Game Over
+<div className={css.buttonWrapper}>
+<button type='button' onClick={()=>stateUpdater('gameStart',false)} className={css.returnButton}>Return</button>
+</div>
+</div>
+</div>
+<img className={css.bang} style = {coords}  src={bang}/>
+</>
+)
+
+
+
+
+}
+
+
+export default Bang

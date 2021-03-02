@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +6,37 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: "Streamster";
+  src: url("./fonts/Streamster.woff2") format("woff2"),
+    url("./fonts/Streamster.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RoadRage";
+  src: url("./fonts/RoadRage.woff2") format("woff2"),
+    url("./fonts/RoadRage.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neon";
+  src: url("./fonts/Neon.woff2") format("woff2"),
+    url("./fonts/Neon.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }

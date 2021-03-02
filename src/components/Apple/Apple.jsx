@@ -17,7 +17,7 @@ class Apple extends React.Component {
 
   
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.coords !== this.props.coords) this.setProperties(this.props)
+    if (prevProps.coords !== this.props.coords||prevProps.blockSize!==this.props.blockSize) this.setProperties(this.props)
     if (!prevState.animate) this.setState({ animate: true })
   }
   setProperties = (props) => {
@@ -29,6 +29,7 @@ class Apple extends React.Component {
         height: `${blockSize}px`,
         top: `${y * blockSize}px`,
         left: `${x * blockSize}px`,
+        backgroundSize: `${blockSize * 5}px ${blockSize * 4}px`
       }, animate: false
     })
   }

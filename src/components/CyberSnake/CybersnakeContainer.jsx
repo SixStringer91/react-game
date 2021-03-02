@@ -22,9 +22,16 @@ export default class CybersnakeContainer extends React.Component {
 	}
 	
 
-	componentDidUpdate({apple, cyberSnake}){
+	componentDidUpdate({apple, cyberSnake,blockSize}){
 		this.cyberSnakeUpdater(apple,cyberSnake)
+		if(blockSize!==this.props.blockSize){
+			this.setState({
+				defaultStyles:{...this.state.defaultStyles, width: `${this.props.blockSize}px`,
+				height: `${this.props.blockSize}px`}
+			})
+		
 	}
+}
 
 
 	cyberSnakeUpdater = (apple, cyberSnake) => {

@@ -1,0 +1,51 @@
+
+ .bang {
+  opacity:1;
+  position:absolute;
+  z-index: 10;
+  
+}
+.gameOverWrapper {
+width: 100%;
+height: 100%;
+position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: row;
+animation:animate .6s 1 alternate;
+}
+
+.gameOverTitle {
+font-size:80px;
+font-family: "RoadRage";
+color:#D70865;
+text-shadow: 1px 1px 2px #fdc500;
+z-index:20;
+}
+
+.returnButton  {
+  padding : 10px 0;
+  font-family: "Neon";
+  width: 100px;
+  font-size: 20px;
+  margin: 0 auto;
+  border: 2px solid ;
+  border-radius: 20px;
+  color: #F94E9B;
+  
+}
+
+.buttonWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index:20;
+}
+
+
+@keyframes animate {
+  from { opacity: 0; }
+  to { opacity: 1; }
+ }
