@@ -27,7 +27,7 @@
 
 
 .gameArea{
-  margin-top: 80px;
+  margin-top: 60px;
   position: relative;
   border: 10px solid #1373DF;
   border-radius:20px;
@@ -63,7 +63,6 @@
 @media (max-width: 1024px){
 
   .gameArea{
-    margin-top:40px;
     border: 5px solid #1373DF;
     border-radius:10px;
     width: 680px;
@@ -74,6 +73,19 @@
     width: 650px;
   }
 }
+
+@media (min-width: 1100px) and  (min-height: 900px){
+  .gameArea{
+    margin-top:10px;}
+}
+@media (min-width: 400px) and (max-height: 900px){
+  .gameArea{
+    margin-top:40px;}
+}
+
+
+
+
 @media (max-width: 680px){
 
   .gameArea{
@@ -83,8 +95,20 @@
     height: 500px;
   }
   .container{
-    height: 100%;
     width: 480px;
   }
 
+}
+
+@media (max-width: 521px){
+
+  .gameArea{
+    border: 5px solid #1373DF;
+    border-radius:10px;
+    width: 450px;
+    height: 450px;
+  }
+  .container{
+    width: 430px;
+  }
 }

@@ -1,29 +1,4 @@
-@font-face {
-  font-family: "Streamster";
-  src: url("../fonts/Streamster.woff2") format("woff2"),
-    url("../fonts/Streamster.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
 
-@font-face {
-  font-family: "RoadRage";
-  src: url("../fonts/RoadRage.woff2") format("woff2"),
-    url("../fonts/RoadRage.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Neon";
-  src: url("../fonts/Neon.woff2") format("woff2"),
-    url("../fonts/Neon.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
 
 .MainMenu{
   display: flex;
@@ -35,6 +10,7 @@ border-radius:50px;
 
 
 .title{
+  font-size: 30px;
  text-align: center;
  font-family: "Streamster";
  color:#F94E9B;
@@ -92,6 +68,75 @@ transition: all .5s;
 }
 
 
+
+
+
+.slideContainer{
+
+  padding: 40px 0 0;
+  display: flex;
+
+  justify-content: space-around;
+  font-size: 20px;
+  font-family: "Neon";
+}
+
+.effectContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #F94E9B;
+}
+
+.inputWrapper{
+  width:max-content;
+}
+.effectContainer span{
+  display: block;
+  width:150px;
+  text-align: center;
+  height: 100%;
+}
+
+.slideContainer input{
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
+.enableSound{
+background-color:#fdc500;
+text-align: center;
+width: 40px;
+padding:1px 5px ;
+border-radius:5px;
+margin-left: 10px;
+cursor: pointer;
+}
+
+
+
+.otherSettings{
+  margin-top: 20px;
+  margin-right:auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.buttonWrapper{
+  width: 50%;
+}
+
+.fullScreen{
+  background-color: #fdc500;
+  color: #F94E9B;
+}
+
 button {
   padding : 10px 0;
   font-family: "Neon";
@@ -117,39 +162,88 @@ button:hover{
   transition: all .2s;
 }
 
+@media (max-width: 1024px){
+  .logo {
+    font-size: 15px;
+    }
+    .title{
+      font-size: 25px;
+     }
+    .itemWrapper{
+      font-size: 12px;
+      width: 125px;
+      border-radius:4px;
+    }
+    .menuItems{
+      margin-bottom: 8px;
+      
+    }
+    .slideContainer{
+      padding: 30px 0 0;
+      font-size: 15px;
+    }
+    .effectContainer span{
+      width:120px;
 
-.slideContainer{
+    }
+}
+@media (max-width: 680px){
+  .logo {
+    font-size: 10px;
+    }
+    .title{
+      font-size: 20px;
+     }
+    .itemWrapper{
+      font-size: 10px;
+      width: 115px;
+      border-radius:3px;
+    }
+    .menuItems{
+      margin-bottom: 7px;
+      
+    }
+    .slideContainer{
+      padding: 25px 0 0;
+      font-size: 10px;
+      flex-direction:column;
 
-  padding: 40px 0 0;
-  display: flex;
-  justify-content: space-around;
-  font-size: 20px;
-  font-family: "Neon";
+    }
+
+ .slideContainer div+div{
+  margin-top: 5px;
+ }
+ .enableSound a{
+  line-height: 18px;
+}
 }
 
-.slideContainer input{
-  margin-left: 10px;
-  cursor: pointer;
+@media (max-width: 521px){
+  button {
+    padding : 6px 0;
+    font-family: "Neon";
+    width: 100px;
+    font-size: 15;
+    margin: 0 auto;
+    border-radius: 20px;
+ 
+  }
+  .enableSound{
+    width: 40px;
+    padding:1px 5px ;
+    border-radius:5px;
+    margin-left: 10px;
+    cursor: pointer;
+    }
+    .enableSound a{
+      line-height: 18px;
+    }
+
+    .otherSettings{
+      margin-top: 10px;
+    }
 }
 
-.effectContainer{
-  display: flex;
-  justify-content: space-around;
-  color: #F94E9B;
-}
-.enableSound{
-background-color:#fdc500;
-text-align: center;
-width: 40px;
-padding:1px 5px ;
-border-radius:5px;
-margin-left: 10px;
-cursor: pointer;
-}
-
-.disableSound{
-background-color:red;
-}
 /*
 a:active {
   background-color: black;

@@ -1,3 +1,4 @@
+
 import React from "react";
 import css from "./App.module.css";
 import Game from "./components/Game";
@@ -6,7 +7,11 @@ import music from "./sounds/the-prodigy_-_narayan.mp3";
 import eat from './sounds/hrum.mp3';
 import bang from './sounds/gameover.mp3';
 import me from './img/me.jpg';
-import rs from './img/rs_school_js.svg'
+import rs from './img/rs_school_js.svg';
+
+
+const userStorage = JSON.parse(window.localStorage.getItem('snapshot'));
+
 
 class App extends React.Component {
 	constructor(props) {
@@ -19,18 +24,26 @@ class App extends React.Component {
 			snakeLength: 3,
 			musicValue:50,
       effectsValue:50,
-			areaSizePx:0
+			areaSizePx:0,
+			fullScreen:false
 		};
 		this.music = new Audio(music)
 		this.soundArray = [eat,bang].map(el=>new Audio(el))
 		this.ref = React.createRef();
+		this.bgRef = React.createRef();
+
 	}
 
 	componentDidMount() {
+
 		this.makeChange({type:'areaSizePx',state:this.ref.current.clientHeight})
 		window.addEventListener('resize',this.resizeWin);
-		this.musicFunc();
 	}
+
+	setLocalStorage = (data)=>{
+		localStorage.setItem('result', data);
+}
+
 	componentDidUpdate(prevProps, prevState) {
 
 		if (prevState.gameStart !== this.state.gameStart) {
@@ -44,16 +57,30 @@ class App extends React.Component {
 			this.state.gameStart ? this.music.play() : this.music.pause();
 		}
 		}
+		if(this.state.fullScreen){
+			if(	this.bgRef.current.requestFullScreen) {
+				this.bgRef.current.requestFullScreen();
+			} else if(this.bgRef.current.mozRequestFullScreen) {
+				this.bgRef.current.mozRequestFullScreen();
+			} else if(this.bgRef.current.webkitRequestFullScreen) {
+				this.bgRef.current.webkitRequestFullScreen()
+		}
+	}
+		if (!this.state.fullScreen) {
+			if(document.cancelFullScreen) {
+				document.cancelFullScreen();
+			} else if(document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if(document.webkitCancelFullScreen) {
+				document.webkitCancelFullScreen();
+			}
+		}
 	}
 
   resizeWin = ()=>{
 		this.makeChange({type:'areaSizePx',state:this.ref.current.clientWidth})
 		}
 	
-
-	musicFunc = () => {
-	}
-
 	changeSoundVolume=(target)=>{
     this.setState({
       [target.id]:+target.value
@@ -64,10 +91,10 @@ class App extends React.Component {
 		this.setState({ [type]: state });
 	};
 	render() {
-		const { gameStart, mode, difficult, areaSize, musicValue, effectsValue,areaSizePx} = this.state;
+		const {fullScreen, gameStart, mode, difficult, areaSize, musicValue, effectsValue,areaSizePx} = this.state;
 		const [eat,bang]=this.soundArray
 		return (
-			<div className={css.backGround}>
+			<div ref = {this.bgRef} className={css.backGround}>
 				<div onClick={this.musicFunc}  ref = {this.ref} className={css.gameArea}>
 					{gameStart ? (
 						<>
@@ -81,7 +108,7 @@ class App extends React.Component {
 					) : (
 						<MainMenu
 							makeChange={this.makeChange}
-							type={{ mode, difficult, areaSize,musicValue,effectsValue}}
+							type={{ mode, difficult, areaSize,musicValue,effectsValue,fullScreen}}
 							changeSoundVolume = {this.changeSoundVolume}
 						/>
 					)}

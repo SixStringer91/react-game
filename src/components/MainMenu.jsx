@@ -40,7 +40,7 @@ class App extends React.Component {
 
   render() {
     const { mode, difficult, areaSize } = this.state;
-    const {musicValue,effectsValue} = this.props.type
+    const {musicValue,effectsValue,fullScreen} = this.props.type
     return (
       <>
         <div className={css.MainMenu}>
@@ -56,20 +56,26 @@ class App extends React.Component {
           </div>
           <div className={css.slideContainer}>
           <div className={css.effectContainer}>
-            <span>Music volume </span> <div></div><input onChange={(e)=>this.changeSoundVolume(e.target)} id = "musicValue" type="range" min="1" max="100" value={musicValue}/>
+            <span>Music volume </span>  <div className={css.inputWrapper}><input onChange={(e)=>this.changeSoundVolume(e.target)} id = "musicValue" type="range" min="1" max="100" value={musicValue}/></div>
             <div data-type="musicValue" onClick={this.buttonChange} className={css.enableSound}><a>{musicValue?'On':'Off'}</a></div>
            
             </div>
             <div className={css.effectContainer}>
-            <span>Effects volume </span> <div></div><input type="range" onChange={(e)=>this.changeSoundVolume(e.target)} id = "effectsValue" min="1" max="100" value={effectsValue} />
+            <span>Effects volume </span> <div className={css.inputWrapper}><input type="range" onChange={(e)=>this.changeSoundVolume(e.target)} id = "effectsValue" min="1" max="100" value={effectsValue} /></div>
             <div data-type="effectsValue" onClick={this.buttonChange} className={css.enableSound}><a>{effectsValue?'On':'Off'}</a></div>
        
             </div>
           </div>
-  
-          <div className={css.buttonWrapper}>
+          <div className={css.otherSettings}>
+         <div className={css.buttonWrapper}>
+            <button onClick={() => this.makeChange({ type: 'fullScreen', state: !fullScreen})} type='button' className={css.fullScreen}>FullScreen</button>
+            </div>
+            <div className={css.buttonWrapper}>
             <button onClick={() => this.makeChange({ type: 'gameStart', state: true })} type='button' className={css.start}>Start</button>
+            </div>
+
           </div>
+   
         </div>
       </>
     );

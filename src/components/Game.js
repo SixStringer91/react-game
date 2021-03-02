@@ -30,6 +30,13 @@ class Game extends React.Component {
 		this.setState(this.setGameMode(), () => {
 			this.loop(this.snakeEngine);
 		});
+		window.addEventListener('beforeunload',()=>{
+			const {snake,cyberSnake,apple,playerScore} = this.state
+			const propSnap = {
+				snake,cyberSnake,apple,playerScore
+			}
+			localStorage.setItem('snapshot', JSON.stringify(propSnap))
+		})
 	}
 
 	componentDidUpdate(){
