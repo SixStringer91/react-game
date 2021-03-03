@@ -1,7 +1,7 @@
 
 import React from "react";
 import css from "./App.module.css";
-import Game from "./components/Game";
+import Game from "./components/Game.jsx";
 import MainMenu from "./components/MainMenu.jsx";
 import music from "./sounds/the-prodigy_-_narayan.mp3";
 import eat from './sounds/hrum.mp3';
@@ -9,14 +9,12 @@ import bang from './sounds/gameover.mp3';
 import me from './img/me.jpg';
 import rs from './img/rs_school_js.svg';
 
-
-const userStorage = JSON.parse(window.localStorage.getItem('snapshot'));
-
-
+const snapShot = JSON.parse(window.localStorage.getItem('snapshot'))||null
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			userStorage : snapShot,
 			mode: "Versus",
 			difficult: "Normal",
 			areaSize: "Normal",
@@ -35,9 +33,11 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-
+	
 		this.makeChange({type:'areaSizePx',state:this.ref.current.clientHeight})
-		window.addEventListener('resize',this.resizeWin);
+		window.addEventListener('resize',this.resizeWin)
+		// if(!this.state.userStorage) this.setState({gameStart:true})
+
 	}
 
 	setLocalStorage = (data)=>{
@@ -52,7 +52,7 @@ class App extends React.Component {
 				return el
 			});
 			this.soundArray = [...soundArrayCopy];
-			if(this.state.musicValue){
+			if(this.state.musicValue&&!this.state.userStorage){
 			this.music.volume = this.state.musicValue/100
 			this.state.gameStart ? this.music.play() : this.music.pause();
 		}
@@ -75,6 +75,7 @@ class App extends React.Component {
 				document.webkitCancelFullScreen();
 			}
 		}
+		if(this.state.userStorage) this.setState({userStorage:null})
 	}
 
   resizeWin = ()=>{
@@ -91,14 +92,17 @@ class App extends React.Component {
 		this.setState({ [type]: state });
 	};
 	render() {
-		const {fullScreen, gameStart, mode, difficult, areaSize, musicValue, effectsValue,areaSizePx} = this.state;
+	
+		const {userStorage, fullScreen, gameStart, mode, difficult, areaSize, musicValue, effectsValue,areaSizePx} = this.state;
 		const [eat,bang]=this.soundArray
+	
 		return (
-			<div ref = {this.bgRef} className={css.backGround}>
+			<div  ref = {this.bgRef} className={css.backGround}>
 				<div onClick={this.musicFunc}  ref = {this.ref} className={css.gameArea}>
-					{gameStart ? (
+					{gameStart || userStorage ? (
 						<>
 							<Game
+								userStorage = {userStorage}
 								soundEffects = {{eat,bang,music:this.music}}
 								makeChange={this.makeChange}
 								gameMode={{ gameStart, mode, difficult, areaSize }}

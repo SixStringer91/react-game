@@ -12,13 +12,19 @@ export default class SnakeContainer extends React.Component {
         width: `${this.props.blockSize}px`,
         height: `${this.props.blockSize}px`,
         zIndex: '2',
-        backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
+        border: "2px solid #F72585",
+				borderRadius : '20%',
+				background: '#03045e',
+        // backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
       }
     }
   }
 
   componentDidMount() {
-    this.buttonListener();
+    window.addEventListener("keyup",(e)=>this.buttonListener(e))
+  }
+  componentWillUnmount(){
+    window.removeEventListener("keyup",(e)=>this.buttonListener(e))
   }
 
   componentDidUpdate(preProps) {
@@ -71,18 +77,15 @@ export default class SnakeContainer extends React.Component {
   };
 
 
-  buttonListener = () => {
-    window.addEventListener("keyup", (e) => {
+  buttonListener = (e) => {
       const buttonChek =
         (e.key === "w" && this.props.prevKey !== "s") ||
         (e.key === "a" && this.props.prevKey !== "d") ||
         (e.key === "s" && this.props.prevKey !== "w") ||
-        (e.key === "d" && this.props.prevKey !== "a") ||
-        e.key === " ";
+        (e.key === "d" && this.props.prevKey !== "a")
       if (buttonChek) {
         this.props.buttonListener(e.key)
       }
-    });
   }
 
   snakeMapping = (segments, blockSize) => {
@@ -104,7 +107,7 @@ export default class SnakeContainer extends React.Component {
     return (
       <>
         <Snake
-          style={{ width: `${blockSize}px`, heigth: `${blockSize}px` }}
+          // style={{ width: `${blockSize}px`, heigth: `${blockSize}px` }}
           segments={segments}
         />
       </>

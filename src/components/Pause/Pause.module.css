@@ -1,0 +1,14 @@
+.pause{
+ font-family: "Neon";
+  position: absolute;
+  font-size: 30px;
+  width: 100%;
+  bottom:0;
+  text-align: center;
+  opacity: 0.6;
+ color: #D70865;
+}
+
+.pause span {
+  color: #fdc500;
+}
