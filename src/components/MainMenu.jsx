@@ -31,7 +31,7 @@ class App extends React.Component {
 
   gameModeRender = (type, state) => {    
     const currentType = this.props.type[type];
-    const elements = state.map(el => <div className={`${css.itemWrapper} ${el === currentType ? css.chosen : ''}`}><a key={el} onMouseEnter={this.onHover} onClick={() => this.makeChange({ type, state: el })} className={css.items} href="#">{el}</a></div>)
+    const elements = state.map(el => <div key={el} className={`${css.itemWrapper} ${el === currentType ? css.chosen : ''}`}><a  onMouseEnter={this.onHover} onClick={() => this.makeChange({ type, state: el })} className={css.items} href="#">{el}</a></div>)
     return <div className={css.menuItems}>{elements}</div>
   }
 

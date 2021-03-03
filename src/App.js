@@ -101,7 +101,7 @@ class App extends React.Component {
 				<div onClick={this.musicFunc}  ref = {this.ref} className={css.gameArea}>
 					{gameStart || userStorage ? (
 						<>
-							<Game
+							<Game 
 								userStorage = {userStorage}
 								soundEffects = {{eat,bang,music:this.music}}
 								makeChange={this.makeChange}
@@ -110,7 +110,7 @@ class App extends React.Component {
 							/>
 						</>
 					) : (
-						<MainMenu
+						<MainMenu 
 							makeChange={this.makeChange}
 							type={{ mode, difficult, areaSize,musicValue,effectsValue,fullScreen}}
 							changeSoundVolume = {this.changeSoundVolume}
@@ -122,6 +122,7 @@ class App extends React.Component {
 					<div className={css.me}>
 						<a  target="_blank" href='https://github.com/SixStringer91'><img src={me}/></a>
 					</div>
+					<div className={css.date}>2021</div>
 					<div className={css.rs}>
 					<a target="_blank" href='https://rs.school/js/'><img src={rs}/></a>
 					</div>

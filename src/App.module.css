@@ -60,6 +60,13 @@
   display: block;
 }
 
+.date{
+  font-family: "Neon";
+  font-size: 10px;
+  margin-right: auto;
+  color: #370982
+}
+
 @media (max-width: 1024px){
 
   .gameArea{

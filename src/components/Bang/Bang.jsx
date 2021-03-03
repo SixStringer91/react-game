@@ -5,12 +5,6 @@ import css from './Bang.module.css'
 
 
 const Bang = ({blockSize,bangCoords,stateUpdater})=>{
-const coords = {
-left: `${(bangCoords.x-1)*blockSize}px`,
-top: `${(bangCoords.y-1)*blockSize}px`,
-width:`${blockSize*3}px`,
-height:`${blockSize*3}px`
-}
 
 return (<>
 <div className={css.gameOverWrapper}>
@@ -20,7 +14,12 @@ return (<>
 </div>
 </div>
 </div>
-<img className={css.bang} style = {coords}  src={bang}/>
+<img className={css.bang} style = {{
+left: `${(bangCoords.x-1)*blockSize}px`,
+top: `${(bangCoords.y-1)*blockSize}px`,
+width:`${blockSize*3}px`,
+height:`${blockSize*3}px`
+}}  src={bang}/>
 </>
 )
 

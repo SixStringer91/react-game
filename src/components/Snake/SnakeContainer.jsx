@@ -14,8 +14,8 @@ export default class SnakeContainer extends React.Component {
         zIndex: '2',
         border: "2px solid #F72585",
 				borderRadius : '20%',
-				background: '#03045e',
-        // backgroundSize: `${this.props.blockSize * 5}px ${this.props.blockSize * 4}px`
+				background: this.props.background,
+        
       }
     }
   }
@@ -40,10 +40,10 @@ export default class SnakeContainer extends React.Component {
   }
 
   setCollisions = (callback) => {
-    const { apple, snake } = this.props.state;
+    const { apple, snake, apple2 } = this.props.state;
     const head = snake[snake.length - 1]
     const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
-    if (apple.x === head.x && apple.y === head.y) {
+    if ((apple.x === head.x && apple.y === head.y)||(apple2.x === head.x && apple2.y === head.y)) {
       this.props.stateUpdater('snakeEat')
     }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {
@@ -78,23 +78,41 @@ export default class SnakeContainer extends React.Component {
 
 
   buttonListener = (e) => {
-      const buttonChek =
-        (e.key === "w" && this.props.prevKey !== "s") ||
-        (e.key === "a" && this.props.prevKey !== "d") ||
-        (e.key === "s" && this.props.prevKey !== "w") ||
-        (e.key === "d" && this.props.prevKey !== "a")
-      if (buttonChek) {
-        this.props.buttonListener(e.key)
+      const buttonChek = this.buttonChecker(e.keyCode)
+      const check = 
+        (buttonChek === "w" && this.props.prevKey !== "s") ||
+        (buttonChek === "a" && this.props.prevKey !== "d") ||
+        (buttonChek === "s" && this.props.prevKey !== "w") ||
+        (buttonChek === "d" && this.props.prevKey !== "a")
+      if (check) {
+        this.props.stateUpdater('snake',buttonChek)
       }
   }
 
+  buttonChecker = (keycode) => {
+    switch (keycode) {
+      case 38:
+      case 87:
+        return 'w'
+      case 37:
+      case 65:
+        return 'a'
+      case 40:
+      case 83:
+        return 's'
+      case 39:
+      case 68:
+        return 'd'
+
+    }
+  }
+
+  
   snakeMapping = (segments, blockSize) => {
     return segments.map((el, i) => {
       const styles = {
         top: `${el.y * blockSize}px`,
         left: `${el.x * blockSize}px`,
-        backgroundPosition: `${blockSize * el.pic[0]}px ${blockSize * el.pic[1]}px`
-
       }
       return <div className={`snake`} key={i} style={{ ...this.state.defaultStyles, ...styles }} />
     })

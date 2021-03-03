@@ -27,6 +27,7 @@ class Game extends React.Component {
 		this.currentTime = 0;
 		this.nextCyberHead = null;
 		this.nextAppleDirection = null;
+		this.nextApple2Direction = null;
 	}
 
 	componentDidMount() {
@@ -94,6 +95,7 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 	setGameMode = () => {
 	const userScoreSingle = JSON.parse(window.localStorage.getItem('single'))||0;
 	const userScoreVersus = JSON.parse(window.localStorage.getItem('versus'))||0;
+	const userScoreAuto = JSON.parse(window.localStorage.getItem('autoplay'))||0;
 	let init = {};
 	if(this.props.userStorage){
 		init = {...this.props.userStorage.state}
@@ -110,34 +112,34 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 		init.gameStart = gameStart;
 		switch (difficult) {
 			case "Easy":
-				init.delta = 53;
+				init.delta = 45;
 				break;
 			case "Normal":
-				init.delta = 25;
+				init.delta = 33;
 				break;
 			case "Hard":
-				init.delta = 0;
+				init.delta = 10;
 				break;
 		}
 		switch (areaSize) {
 			case "Small":
-				init.areaSizeInBlocks = 10;
+				init.areaSizeInBlocks = 20;
 				break;
 			case "Normal":
-				init.areaSizeInBlocks = 30;
+				init.areaSizeInBlocks = 35;
 				break;
 			case "Big":
-				init.areaSizeInBlocks = 50;
+				init.areaSizeInBlocks = 60;
 				break;
 		}
 		init.apple = {};
-	
+		init.apple2 = {};
 		init.mode = mode
 		if (mode === "Single" || mode === "Versus") {
 			init.snake = [
-				{ x: 0, y: 1, pic: [2, 4] },
-				{ x: 1, y: 1, pic: [2, 4] },
-				{ x: 2, y: 1, pic: [1, 4] },
+				{ x: 0, y: 1},
+				{ x: 1, y: 1},
+				{ x: 2, y: 1},
 			];
 			init.playerScore = 0;
 		}
@@ -148,11 +150,17 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 				{ x: init.areaSizeInBlocks - 3, y: init.areaSizeInBlocks - 1 },
 			];
 			init.cyberScore = 0;
+			init.snake = [
+				{ x: 0, y: 1},
+				{ x: 1, y: 1},
+				{ x: 2, y: 1},
+			];
+			init.playerScore = 0;
 		}
 	}
-	if(init.mode==='Versus'||init.mode==='Single'){
-		init.yourBestScore = init.mode ==='Versus' ? userScoreVersus : userScoreSingle;
-	}
+	if(init.mode==='Versus')init.yourBestScore = userScoreVersus;
+	else if(init.mode==='Single')init.yourBestScore = userScoreSingle;
+	else if(init.mode==='Autoplay')init.yourBestScore = userScoreAuto;
 		return init;
 	};
 
@@ -178,16 +186,18 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 			case "apple":
 				this.nextAppleDirection = data;
 				break;
+				case "apple2":
+					this.nextApple2Direction = data;
+					break;
 			case "snake":
-				// this.setState({ [type]: [...data] });
+				if(!this.state.paused)this.nextKey = data;
+				break;
+				case "cyberSnake":
+				this.nextCyberHead = data;
 				break;
 			case "game-loop":
 				this._gameLoop = data;
-				break;
-			case "cyberSnake":
-				this.nextCyberHead = data;
-				break;
-				
+				break;	
 			case "cyberSnakeEat":
 				if(!this.state.paused){	
 				this.cyberScore++;
@@ -219,6 +229,7 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 		const { paused, snake, cyberSnake,yourBestScore, mode } = this.state;
 		if(!paused){
 		if(this.playerScore>yourBestScore){
+		
 			this.localStorageUpdater(mode.toLowerCase(),this.playerScore)
 			objState.yourBestScore = this.playerScore
 		}
@@ -226,6 +237,10 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 		if (this.nextAppleDirection) {
 			objState.apple = this.nextAppleDirection;
 			this.nextAppleDirection = null;
+		}
+		if (this.nextApple2Direction) {
+			objState.apple2 = this.nextApple2Direction;
+			this.nextApple2Direction = null;
 		}
 		if (snake) {
 			objState.snake = this.playerUpdater().snake;
@@ -293,63 +308,28 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 		return { snake: [...snake, { x, y, pic: body.headPic }] };
 	};
 
-	renderPartsOfSnake = (head, key, body) => {
+	renderPartsOfSnake = (head, key) => {
 		let x = head.x;
 		let y = head.y;
 		const size = this.state.areaSizeInBlocks - 1;
 		switch (key) {
 			case "w":
 				y = head.y - 1 < 0 ? size : head.y - 1;
-
-				if (body) {
-					body.headPic = [2, 4];
-					if (this.prevKey !== key) {
-						this.prevKey === "a"
-							? (body.neckPic = [5, 3])
-							: (body.neckPic = [3, 2]);
-					} else body.neckPic = [3, 3];
-				}
 				break;
 			case "a":
 				x = head.x - 1 < 0 ? size : head.x - 1;
-				if (body) {
-					body.headPic = [2, 3];
-					if (this.prevKey !== key) {
-						this.prevKey === "s"
-							? (body.neckPic = [3, 2])
-							: (body.neckPic = [3, 4]);
-					} else body.neckPic = [4, 4];
-				}
 				break;
 			case "s":
 				y = head.y + 1 > size ? 0 : head.y + 1;
-				if (body) {
-					body.headPic = [1, 3];
-					if (this.prevKey !== key) {
-						this.prevKey === "a"
-							? (body.neckPic = [5, 4])
-							: (body.neckPic = [3, 4]);
-					} else body.neckPic = [3, 3];
-				}
 				break;
 			case "d":
 				x = head.x + 1 > size ? 0 : head.x + 1;
-				if (body) {
-					body.headPic = [1, 4];
-					if (this.prevKey !== this.nextKey) {
-						this.prevKey === "s"
-							? (body.neckPic = [5, 3])
-							: (body.neckPic = [5, 4]);
-					} else body.neckPic = [4, 4];
-				}
 				break;
 		}
 		return { x, y };
 	};
 
-	buttonListener = (key) => {
-		this.nextKey = key;
-	};
+
 
 	pauseHandler = e =>{
 		if(e.key === ' '&&!this.state.paused){
@@ -373,6 +353,7 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 			mode,
 			paused,
 			apple,
+			apple2,
 			snake,
 			areaSizePx,
 			areaSizeInBlocks,
@@ -393,15 +374,16 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 						{!bangCoords ? null : (
 							<Bang areaSizePx={areaSizePx} stateUpdater={this.stateUpdater} blockSize={blockSize} bangCoords={bangCoords} />
 						)}
-							{mode==='Autoplay'?null:<Score playerScore = {playerScore} yourBestScore = {yourBestScore} />}
+							<Score playerScore = {playerScore} yourBestScore = {yourBestScore} />
 							{paused?<Pause/>:null}
-						{snake ? (
+						{snake && mode!=='Autoplay' ? (
 							<SnakeContainer
+								background={'#3A0CA3'}
 								buttonListener={this.buttonListener}
 								stateUpdater={this.stateUpdater}
 								prevKey={this.prevKey}
 								nextKey={this.nextKey}
-								state={{ apple, snake }}
+								state={{ apple, apple2, snake }}
 								blockSize={blockSize}
 								areaSizeInBlocks={areaSizeInBlocks}
 							/>
@@ -409,7 +391,10 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 
 						{cyberSnake ? (
 							<CybersnakeContainer
+								method={'cyberSnake'}
+								background={'#03045e'}
 								apple={apple}
+								apple2={apple2}
 								snake={snake}
 								cyberSnake={cyberSnake}
 								stateUpdater={this.stateUpdater}
@@ -417,10 +402,36 @@ if(this.state.gameStart&&this._gameLoop)this.localStorageUpdater("snapshot", pro
 								areaSizeInBlocks={areaSizeInBlocks}
 							/>
 						) : null}
+{mode==='Autoplay'?
 
+	<CybersnakeContainer
+		method={'snake'}
+		background={'#3A0CA3'}
+		apple={apple}
+		apple2={apple2}
+		snake={cyberSnake}
+		cyberSnake={snake}
+		stateUpdater={this.stateUpdater}
+		blockSize={blockSize}
+		areaSizeInBlocks={areaSizeInBlocks}
+	/>
+
+:null
+}
 						<AppleContainer
+							method = {'apple'}
 							stateUpdater={this.stateUpdater}
-							state={{ apple, snake, cyberSnake }}
+							state={{apple, snake, cyberSnake}}
+							secApple = {apple2}
+							blockSize={blockSize}
+							areaSizeInBlocks={areaSizeInBlocks}
+						/>
+							<AppleContainer
+							method = {'apple2'}
+							stateUpdater={this.stateUpdater}
+							state={{apple:apple2, snake, cyberSnake
+							}}
+							secApple = {apple}
 							blockSize={blockSize}
 							areaSizeInBlocks={areaSizeInBlocks}
 						/>

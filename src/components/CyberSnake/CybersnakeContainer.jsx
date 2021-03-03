@@ -13,7 +13,7 @@ export default class CybersnakeContainer extends React.Component {
 				height: `${this.props.blockSize}px`,
 				border: "2px solid #F72585",
 				borderRadius : '20%',
-				background: '#3A0CA3',
+				background: this.props.background,
 			},
 			path: {}
 		}
@@ -22,8 +22,10 @@ export default class CybersnakeContainer extends React.Component {
 	}
 	
 
-	componentDidUpdate({apple, cyberSnake,blockSize}){
-		this.cyberSnakeUpdater(apple,cyberSnake)
+	componentDidUpdate({apple,apple2,cyberSnake,blockSize,snake}){
+		if(cyberSnake!==this.props.cyberSnake){
+		this.cyberSnakeUpdater(apple,apple2,cyberSnake,snake)
+	}
 		if(blockSize!==this.props.blockSize){
 			this.setState({
 				defaultStyles:{...this.state.defaultStyles, width: `${this.props.blockSize}px`,
@@ -34,54 +36,57 @@ export default class CybersnakeContainer extends React.Component {
 }
 
 
-	cyberSnakeUpdater = (apple, cyberSnake) => {
-	
-		const appleChange = apple !== this.props.apple;
+	cyberSnakeUpdater = (apple,apple2, cyberSnake,snake) => {
+		const method = this.props.method
+		const appleCheck = this.headsCheck(snake,apple);
+		const apple2Check = this.headsCheck(snake,apple2) 
+		const appleChange = apple !== this.props.apple||apple2!==this.props.apple2;
 		const cyberChange = cyberSnake !== this.props.cyberSnake;
 		const head = this.props.cyberSnake[this.props.cyberSnake.length - 1];
-		const headEqualApple = head.x === this.props.apple.x && head.y === this.props.apple.y;
-		const tailCollision = this.props.cyberSnake.find((el,i)=>{
-		if(i<this.props.cyberSnake.length-1){
-		 if(el.x===head.x&&el.y===head.y) return el
-		}	
-		})
+		const headEqualApple = (head.x === apple.x && head.y===apple.y) || (head.x === apple2.x && head.y===apple2.y) ;
 		let direction;
 		if (headEqualApple) {
-			this.stateUpdater('cyberSnakeEat', true);
+			this.stateUpdater(`${method}Eat`, true);
 		}
-		// else if(tailCollision){
-		// }
-		else if (appleChange) {
-			const newPath = this.pathfinder(this.props.apple, this.props.cyberSnake, this.props.areaSizeInBlocks);
+	 else if (appleChange||cyberChange) {
+			const {apple,apple2} = this.props
+			let needledDest;
+      if(appleCheck)needledDest=apple2
+			else if (apple2Check)needledDest=apple;
+			else needledDest = appleChange||headEqualApple? this.minDestination(head,apple,apple2) : this.state.currentApple;
+
+			const newPath = this.pathfinder(needledDest, this.props.cyberSnake, this.props.areaSizeInBlocks,this.props.snake);
 			if (newPath.length) {
 				direction = this.snakeDirection(head, newPath[0]);
-				this.stateUpdater('cyberSnake', direction);
+				this.stateUpdater(method, direction);
 				newPath.shift();
-				this.setState({ path: newPath });
-			}
-			// else {
-			// 	this.stateUpdater('cyberSnake', direction);
-			// }
-		}
-		else if (cyberChange) {
-			if (this.state.path.length) {
-				const newPath = [...this.state.path];
-				direction = this.snakeDirection(head, newPath[0])
-				this.stateUpdater('cyberSnake', direction);
-				newPath.shift();
-				this.setState({ path: [...newPath] })
-			}
-			else {
-				const newPath = this.pathfinder(this.props.apple, this.props.cyberSnake, this.props.areaSizeInBlocks);
-				if (newPath.length) {
-					direction = this.snakeDirection(head, newPath[0]);
-					this.stateUpdater('cyberSnake', direction);
-					newPath.shift();
-					this.setState({ path: newPath });
-				}
+				this.setState({ path: newPath , currentApple:needledDest});
 			}
 		}
 	}
+
+ headsCheck (snake,apple){
+	 const check = snake.find(el=>{
+	 if(apple.x-1==el.x&&apple.y==el.y)return el;
+	 if(apple.x==el.x&&apple.y-1==el.y) return el;
+	 if(apple.x+1==el.x&&apple.y==el.y)return el;
+	 if(apple.x==el.x&&apple.y+1==el.y)return el;
+	})
+	 if(check)return true
+ }
+
+	minDestination = (head,el1,el2)=>{
+	 const first = this.destination(head,el1);
+	 const second = this.destination(head,el2);
+	 if(first<second)return el1
+	 else return el2
+	}
+
+	destination = (head,el)=>{
+		const diffX = head.x - el.y
+		const diffY = head.x - el.y
+		return Math.floor(Math.sqrt(diffX * diffX + diffY * diffY))
+}
 
 
 	snakeDirection = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
@@ -98,7 +103,8 @@ export default class CybersnakeContainer extends React.Component {
 	pathfinder(
 		apple,
 		snake,
-		mapSize
+		mapSize,
+		enemySnake
 	) {
 		//алгоритм поиска пути
 
@@ -113,6 +119,18 @@ export default class CybersnakeContainer extends React.Component {
 			snake.forEach((el, i, arr) => {
 				if (i !== arr.length - 1)
 					array[el.y][el.x] = 0
+			})
+			enemySnake.forEach((el, i, arr) => {array[el.y][el.x] = 0
+				if(el.y<mapSize-1)array[el.y+1][el.x] = 0;
+				if(el.y>0)array[el.y-1][el.x] = 0;
+				if(el.x<mapSize-1)array[el.y][el.x+1] = 0;
+				if(el.x>0)array[el.y][el.x-1] = 0
+				if(el.y+1<mapSize-1)array[el.y+2][el.x] = 0;
+				if(el.y>1)array[el.y-2][el.x] = 0;
+				if(el.x+1<mapSize-1)array[el.y][el.x+2] = 0;
+				if(el.x>1)array[el.y][el.x-2] = 0
+				
+				
 			})
 			return array
 		})();
@@ -260,7 +278,7 @@ const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 	
 
 	render() {
-		const { cyberSnake, blockSize } = this.props
+		const { cyberSnake, blockSize } = this.props;
 		const segments = this.snakeMapping(cyberSnake,blockSize);
 		return (
 			<>

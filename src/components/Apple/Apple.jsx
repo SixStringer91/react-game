@@ -1,15 +1,17 @@
 import React from 'react';
+import appleImg from '../../img/apple.svg'
 import './Apple.css'
 
 class Apple extends React.Component {
-  constructor({ blockSize, coords: { x, y } }) {
-    super({ blockSize, x, y });
+  constructor(props) {
+    super(props);
     this.state = {
-      defaultStyles: {
-        backgroundSize: `${blockSize * 5}px ${blockSize * 4}px`,
-        backgroundPosition: `0 100%`
-      },
-      animate: false
+      defaultStyles:{
+      width: `${this.props.blockSize}px`,
+      height: `${this.props.blockSize}px`,
+      top:`${this.props.blockSize*this.props.coords.y}px`,
+      left:`${this.props.blockSize*this.props.coords.x}px`
+    },animate: false
     }
   }
 
@@ -27,9 +29,8 @@ class Apple extends React.Component {
         ...this.state.defaultStyles,
         width: `${blockSize}px`,
         height: `${blockSize}px`,
-        top: `${y * blockSize}px`,
-        left: `${x * blockSize}px`,
-        backgroundSize: `${blockSize * 5}px ${blockSize * 4}px`
+        top:`${blockSize*y}px`,
+        left:`${blockSize*x}px`
       }, animate: false
     })
   }
@@ -39,7 +40,7 @@ class Apple extends React.Component {
   render() {
 
     return (<>
-      <div className={`apple ${this.state.animate ? 'active' : 'noActive'}`} style={{ ...this.state.defaultStyles }} />
+      <img src={appleImg} className={`apple ${this.state.animate ? 'active' : 'noActive'}`} style={{ ...this.state.defaultStyles }} />
     </>
     )
   }

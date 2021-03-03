@@ -8,11 +8,16 @@
  }
  
  .playerScore .scoreElement div{
-   opacity: 0.6;
+  opacity: 0.6;
  color: #D70865;
  font-size: 30px;
  margin-left: 10px;
  font-family: "Neon";
+ }
+
+ .tabloid{
+   width: 30px;
+   margin-right: 10px;
  }
  
  
