@@ -12,7 +12,7 @@ export default class CybersnakeContainer extends React.Component {
 				width: `${this.props.blockSize}px`,
 				height: `${this.props.blockSize}px`,
 				border: "2px solid #F72585",
-				borderRadius : '20%',
+				borderRadius: '20%',
 				background: this.props.background,
 			},
 			path: {}
@@ -20,73 +20,75 @@ export default class CybersnakeContainer extends React.Component {
 		this.stateUpdater = this.props.stateUpdater
 
 	}
-	
 
-	componentDidUpdate({apple,apple2,cyberSnake,blockSize,snake}){
-		if(cyberSnake!==this.props.cyberSnake){
-		this.cyberSnakeUpdater(apple,apple2,cyberSnake,snake)
-	}
-		if(blockSize!==this.props.blockSize){
+
+	componentDidUpdate({ apple, apple2, cyberSnake, blockSize, snake }) {
+		if (cyberSnake !== this.props.cyberSnake) {
+			this.cyberSnakeUpdater(apple, apple2, cyberSnake, snake)
+		}
+		if (blockSize !== this.props.blockSize) {
 			this.setState({
-				defaultStyles:{...this.state.defaultStyles, width: `${this.props.blockSize}px`,
-				height: `${this.props.blockSize}px`}
+				defaultStyles: {
+					...this.state.defaultStyles, width: `${this.props.blockSize}px`,
+					height: `${this.props.blockSize}px`
+				}
 			})
-		
+
+		}
 	}
-}
 
 
-	cyberSnakeUpdater = (apple,apple2, cyberSnake,snake) => {
+	cyberSnakeUpdater = (apple, apple2, cyberSnake, snake) => {
 		const method = this.props.method
-		const appleCheck = this.headsCheck(snake,apple);
-		const apple2Check = this.headsCheck(snake,apple2) 
-		const appleChange = apple !== this.props.apple||apple2!==this.props.apple2;
+		const appleCheck = this.headsCheck(snake, apple);
+		const apple2Check = this.headsCheck(snake, apple2)
+		const appleChange = apple !== this.props.apple || apple2 !== this.props.apple2;
 		const cyberChange = cyberSnake !== this.props.cyberSnake;
 		const head = this.props.cyberSnake[this.props.cyberSnake.length - 1];
-		const headEqualApple = (head.x === apple.x && head.y===apple.y) || (head.x === apple2.x && head.y===apple2.y) ;
+		const headEqualApple = (head.x === apple.x && head.y === apple.y) || (head.x === apple2.x && head.y === apple2.y);
 		let direction;
 		if (headEqualApple) {
 			this.stateUpdater(`${method}Eat`, true);
 		}
-	 else if (appleChange||cyberChange) {
-			const {apple,apple2} = this.props
+		else if (appleChange || cyberChange) {
+			const { apple, apple2 } = this.props
 			let needledDest;
-      if(appleCheck)needledDest=apple2
-			else if (apple2Check)needledDest=apple;
-			else needledDest = appleChange||headEqualApple? this.minDestination(head,apple,apple2) : this.state.currentApple;
+			if (appleCheck) needledDest = apple2
+			else if (apple2Check) needledDest = apple;
+			else needledDest = appleChange || headEqualApple ? this.minDestination(head, apple, apple2) : this.state.currentApple;
 
-			const newPath = this.pathfinder(needledDest, this.props.cyberSnake, this.props.areaSizeInBlocks,this.props.snake);
+			const newPath = this.pathfinder(needledDest, this.props.cyberSnake, this.props.areaSizeInBlocks, this.props.snake);
 			if (newPath.length) {
 				direction = this.snakeDirection(head, newPath[0]);
 				this.stateUpdater(method, direction);
 				newPath.shift();
-				this.setState({ path: newPath , currentApple:needledDest});
+				this.setState({ path: newPath, currentApple: needledDest });
 			}
 		}
 	}
 
- headsCheck (snake,apple){
-	 const check = snake.find(el=>{
-	 if(apple.x-1==el.x&&apple.y==el.y)return el;
-	 if(apple.x==el.x&&apple.y-1==el.y) return el;
-	 if(apple.x+1==el.x&&apple.y==el.y)return el;
-	 if(apple.x==el.x&&apple.y+1==el.y)return el;
-	})
-	 if(check)return true
- }
-
-	minDestination = (head,el1,el2)=>{
-	 const first = this.destination(head,el1);
-	 const second = this.destination(head,el2);
-	 if(first<second)return el1
-	 else return el2
+	headsCheck(snake, apple) {
+		const check = snake.find(el => {
+			if (apple.x - 1 == el.x && apple.y == el.y) return el;
+			if (apple.x == el.x && apple.y - 1 == el.y) return el;
+			if (apple.x + 1 == el.x && apple.y == el.y) return el;
+			if (apple.x == el.x && apple.y + 1 == el.y) return el;
+		})
+		if (check) return true
 	}
 
-	destination = (head,el)=>{
+	minDestination = (head, el1, el2) => {
+		const first = this.destination(head, el1);
+		const second = this.destination(head, el2);
+		if (first < second) return el1
+		else return el2
+	}
+
+	destination = (head, el) => {
 		const diffX = head.x - el.y
 		const diffY = head.x - el.y
 		return Math.floor(Math.sqrt(diffX * diffX + diffY * diffY))
-}
+	}
 
 
 	snakeDirection = ({ x: x1, y: y1 }, { x: x2, y: y2 }) => {
@@ -106,7 +108,6 @@ export default class CybersnakeContainer extends React.Component {
 		mapSize,
 		enemySnake
 	) {
-		//алгоритм поиска пути
 
 		const startPropeties = {
 			xStart: snake[snake.length - 1].x,
@@ -120,22 +121,23 @@ export default class CybersnakeContainer extends React.Component {
 				if (i !== arr.length - 1)
 					array[el.y][el.x] = 0
 			})
-			enemySnake.forEach((el, i, arr) => {array[el.y][el.x] = 0
-				if(el.y<mapSize-1)array[el.y+1][el.x] = 0;
-				if(el.y>0)array[el.y-1][el.x] = 0;
-				if(el.x<mapSize-1)array[el.y][el.x+1] = 0;
-				if(el.x>0)array[el.y][el.x-1] = 0
-				if(el.y+1<mapSize-1)array[el.y+2][el.x] = 0;
-				if(el.y>1)array[el.y-2][el.x] = 0;
-				if(el.x+1<mapSize-1)array[el.y][el.x+2] = 0;
-				if(el.x>1)array[el.y][el.x-2] = 0
-				
-				
+			enemySnake.forEach((el, i, arr) => {
+				array[el.y][el.x] = 0
+				if (el.y < mapSize - 1) array[el.y + 1][el.x] = 0;
+				if (el.y > 0) array[el.y - 1][el.x] = 0;
+				if (el.x < mapSize - 1) array[el.y][el.x + 1] = 0;
+				if (el.x > 0) array[el.y][el.x - 1] = 0
+				if (el.y + 1 < mapSize - 1) array[el.y + 2][el.x] = 0;
+				if (el.y > 1) array[el.y - 2][el.x] = 0;
+				if (el.x + 1 < mapSize - 1) array[el.y][el.x + 2] = 0;
+				if (el.x > 1) array[el.y][el.x - 2] = 0
+
+
 			})
 			return array
 		})();
 
-		//карта пути
+
 		const mapPath = [...Array(mapSize)].map(() => [...Array(mapSize)].map(() => 0));
 		let changeProps = {
 			endCircle: false,
@@ -149,30 +151,28 @@ export default class CybersnakeContainer extends React.Component {
 			yCur: startPropeties.yStart,
 			lastStep: 0,
 			curStep: 0,
-			checkStep:null,
+			checkStep: null,
 			mapPath,
-			lastStepCheck:0,
-			counter:0
+			lastStepCheck: 0,
+			counter: 0
 		}
 		const maps = {
 			mapSize, mapBarrier
 		}
 
-		
+
 		while (!changeProps.endCircle) {
-			changeProps.lastStepCheck=changeProps.lastStep	
+			changeProps.lastStepCheck = changeProps.lastStep
 			const newChangeProps = { ...this.circle(startPropeties, changeProps, maps, this.pathBuilder) };
 			changeProps = { ...changeProps, ...newChangeProps }
-			if(changeProps.lastStep===changeProps.lastStepCheck){
+			if (changeProps.lastStep === changeProps.lastStepCheck) {
 				changeProps.counter++
-				if(changeProps.counter>30){
-				
-					console.log('невозможно построить путь')
+				if (changeProps.counter > 30) {
 					break
 				}
 			}
 			else {
-				changeProps.counter=0
+				changeProps.counter = 0
 			}
 			if (changeProps.curStep < changeProps.lastStep) {
 				changeProps.curStep++;
@@ -180,16 +180,16 @@ export default class CybersnakeContainer extends React.Component {
 				changeProps.yCur = changeProps.mShY[changeProps.curStep];
 			}
 		}
-		// this.pathArray(map,changeProps.finalPath);
+
 		return changeProps.finalPath;
 	}
 
 	circle = ({ xEnd, yEnd, xStart, yStart },
-		{mShX, mShY, mShN, mDX, mDY, xCur, yCur, lastStep, endCircle, finalPath, mapPath },
+		{ mShX, mShY, mShN, mDX, mDY, xCur, yCur, lastStep, endCircle, finalPath, mapPath },
 		{ mapBarrier, mapSize },
 		pathBuilderHandler) => {
-const checkStep = lastStep
-		//цикл поиска конечного объекта на карте
+		const checkStep = lastStep
+
 		for (let i = 0; i < 4; i++) {
 			const dX = mDX[i];
 			const dY = mDY[i];
@@ -205,11 +205,11 @@ const checkStep = lastStep
 			} else if (newY >= mapSize - 1) {
 				newY = mapSize - 1;
 			}
-const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
+			const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 			if (checkWalls) {
-				//проверка на препятствие
+
 				lastStep++;
-			
+
 				mShX[lastStep] = newX;
 				mShY[lastStep] = newY;
 				mShN[lastStep] = i;
@@ -217,9 +217,9 @@ const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 				if (newX === xEnd && newY === yEnd) {
 					finalPath = [...pathBuilderHandler({ xEnd, yEnd, xStart, yStart }, { mDX, mDY, finalPath, mapPath })]
 					endCircle = true;
-					return {mShX, mShY, mShN, lastStep, endCircle, finalPath, mapPath }
+					return { mShX, mShY, mShN, lastStep, endCircle, finalPath, mapPath }
 				}
-				}
+			}
 		}
 		return { mShX, mShY, mShN, lastStep, endCircle, finalPath, mapPath }
 
@@ -227,7 +227,7 @@ const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 
 	pathBuilder = ({ xEnd, yEnd, xStart, yStart }, { mDX, mDY, finalPath, mapPath }) => {
 
-		//алгоритм построения оптимального пути от конечной точки
+
 
 		const pathX = [0];
 		const pathY = [0];
@@ -255,7 +255,6 @@ const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 			yCurRet += dYRet;
 			NumbPath = mapPath[yCurRet][xCurRet];
 			if (bPath > 500) {
-				console.log("невозможно построить путь");
 				break;
 			}
 		}
@@ -265,21 +264,21 @@ const checkWalls = mapBarrier[newY][newX] === 1 && mapPath[newY][newX] === 0
 	}
 
 
-  snakeMapping = (segments, blockSize) => {
-   return segments.map((el, i) => {
-      const styles = {
-        top: `${el.y * blockSize}px`,
-        left: `${el.x * blockSize}px`,
-      }
-      return <div className={`snake`} key={i} style={{ ...this.state.defaultStyles, ...styles }} />
-    })
+	snakeMapping = (segments, blockSize) => {
+		return segments.map((el, i) => {
+			const styles = {
+				top: `${el.y * blockSize}px`,
+				left: `${el.x * blockSize}px`,
+			}
+			return <div className={`snake`} key={i} style={{ ...this.state.defaultStyles, ...styles }} />
+		})
 	}
 
-	
+
 
 	render() {
 		const { cyberSnake, blockSize } = this.props;
-		const segments = this.snakeMapping(cyberSnake,blockSize);
+		const segments = this.snakeMapping(cyberSnake, blockSize);
 		return (
 			<>
 				<Snake

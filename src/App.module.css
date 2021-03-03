@@ -90,7 +90,10 @@
     margin-top:40px;}
 }
 
-
+@media (min-width: 400px) and (max-height: 800px){
+  .gameArea{
+    margin-top:0px;}
+}
 
 
 @media (max-width: 680px){
@@ -117,5 +120,19 @@
   }
   .container{
     width: 430px;
+  }
+}
+
+
+@media (max-width: 480px){
+
+  .gameArea{
+    border: 5px solid #1373DF;
+    border-radius:10px;
+    width: 420px;
+    height: 420px;
+  }
+  .container{
+    width: 400px;
   }
 }

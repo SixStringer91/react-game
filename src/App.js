@@ -36,7 +36,6 @@ class App extends React.Component {
 	
 		this.makeChange({type:'areaSizePx',state:this.ref.current.clientHeight})
 		window.addEventListener('resize',this.resizeWin)
-		// if(!this.state.userStorage) this.setState({gameStart:true})
 
 	}
 

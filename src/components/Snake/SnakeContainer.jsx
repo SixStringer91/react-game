@@ -13,18 +13,18 @@ export default class SnakeContainer extends React.Component {
         height: `${this.props.blockSize}px`,
         zIndex: '2',
         border: "2px solid #F72585",
-				borderRadius : '20%',
-				background: this.props.background,
-        
+        borderRadius: '20%',
+        background: this.props.background,
+
       }
     }
   }
 
   componentDidMount() {
-    window.addEventListener("keyup",(e)=>this.buttonListener(e))
+    window.addEventListener("keyup", (e) => this.buttonListener(e))
   }
-  componentWillUnmount(){
-    window.removeEventListener("keyup",(e)=>this.buttonListener(e))
+  componentWillUnmount() {
+    window.removeEventListener("keyup", (e) => this.buttonListener(e))
   }
 
   componentDidUpdate(preProps) {
@@ -43,7 +43,7 @@ export default class SnakeContainer extends React.Component {
     const { apple, snake, apple2 } = this.props.state;
     const head = snake[snake.length - 1]
     const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
-    if ((apple.x === head.x && apple.y === head.y)||(apple2.x === head.x && apple2.y === head.y)) {
+    if ((apple.x === head.x && apple.y === head.y) || (apple2.x === head.x && apple2.y === head.y)) {
       this.props.stateUpdater('snakeEat')
     }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {
@@ -78,15 +78,15 @@ export default class SnakeContainer extends React.Component {
 
 
   buttonListener = (e) => {
-      const buttonChek = this.buttonChecker(e.keyCode)
-      const check = 
-        (buttonChek === "w" && this.props.prevKey !== "s") ||
-        (buttonChek === "a" && this.props.prevKey !== "d") ||
-        (buttonChek === "s" && this.props.prevKey !== "w") ||
-        (buttonChek === "d" && this.props.prevKey !== "a")
-      if (check) {
-        this.props.stateUpdater('snake',buttonChek)
-      }
+    const buttonChek = this.buttonChecker(e.keyCode)
+    const check =
+      (buttonChek === "w" && this.props.prevKey !== "s") ||
+      (buttonChek === "a" && this.props.prevKey !== "d") ||
+      (buttonChek === "s" && this.props.prevKey !== "w") ||
+      (buttonChek === "d" && this.props.prevKey !== "a")
+    if (check) {
+      this.props.stateUpdater('snake', buttonChek)
+    }
   }
 
   buttonChecker = (keycode) => {
@@ -107,7 +107,7 @@ export default class SnakeContainer extends React.Component {
     }
   }
 
-  
+
   snakeMapping = (segments, blockSize) => {
     return segments.map((el, i) => {
       const styles = {
@@ -125,7 +125,6 @@ export default class SnakeContainer extends React.Component {
     return (
       <>
         <Snake
-          // style={{ width: `${blockSize}px`, heigth: `${blockSize}px` }}
           segments={segments}
         />
       </>

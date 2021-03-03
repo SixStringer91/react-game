@@ -34,9 +34,7 @@ class Apple extends React.Component {
       }, animate: false
     })
   }
-  componentWillUnmount() {
-    console.log('удолилась');
-  }
+
   render() {
 
     return (<>

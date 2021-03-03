@@ -49,3 +49,22 @@ z-index:20;
   from { opacity: 0; }
   to { opacity: 1; }
  }
+
+
+ @media (max-width: 1024px){
+  .gameOverTitle {
+    font-size:70px;
+    }
+   
+ }
+@media (max-width: 680px){
+  .gameOverTitle {
+    font-size:60px;
+    }
+}
+
+@media (max-width: 521px){
+  .gameOverTitle {
+    font-size:50px;
+    }
+}
