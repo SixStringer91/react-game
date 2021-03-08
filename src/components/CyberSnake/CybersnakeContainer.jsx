@@ -55,7 +55,7 @@ export default class CybersnakeContainer extends React.Component {
 			let needledDest;
 			if (appleCheck) needledDest = apple2
 			else if (apple2Check) needledDest = apple;
-			else needledDest = appleChange || headEqualApple ? this.minDestination(head, apple, apple2) : this.state.currentApple;
+			else needledDest = appleChange || headEqualApple ? this.minDestination(head, apple, apple2) : this.state.currentApple||{x:0,y:0};
 
 			const newPath = this.pathfinder(needledDest, this.props.cyberSnake, this.props.areaSizeInBlocks, this.props.snake);
 			if (newPath.length) {
