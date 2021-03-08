@@ -9,7 +9,8 @@ controls: WASD or arrows for move snake, 'space' for pause
 1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-game.md
 2. Screenshot:
    ![](https://i.ibb.co/xJjcqs4/image-2021-03-03-18-15-28.png)
-3. Deploy: https://sixstringer91-react-game.netlify.app/
+3. Deploy: <del>https://sixstringer91-react-game.netlify.app/</del>
+   FIXED: https://sixstringer91-react-game-fixed.netlify.app/
 4. Done 03.03.2021 / deadline 03.03.2021
 5. Score: 90 / 100
 - Basic scope +30
