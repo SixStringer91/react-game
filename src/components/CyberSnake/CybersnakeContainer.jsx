@@ -48,7 +48,7 @@ export default class CybersnakeContainer extends React.Component {
 		const headEqualApple = (head.x === apple.x && head.y === apple.y) || (head.x === apple2.x && head.y === apple2.y);
 		let direction;
 		if (headEqualApple) {
-			this.stateUpdater(`${method}Eat`, true);
+			this.stateUpdater(`${method}_EAT`, true);
 		}
 		else if (appleChange || cyberChange) {
 			const { apple, apple2 } = this.props

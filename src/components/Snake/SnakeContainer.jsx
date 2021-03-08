@@ -44,7 +44,8 @@ export default class SnakeContainer extends React.Component {
     const head = snake[snake.length - 1]
     const wallsCheck = callback(head.x, head.y, this.props.areaSizeInBlocks);
     if ((apple.x === head.x && apple.y === head.y) || (apple2.x === head.x && apple2.y === head.y)) {
-      this.props.stateUpdater('snakeEat')
+      debugger
+      this.props.stateUpdater("SNAKE_EAT")
     }
     const selfCollision = this.props.state.snake.find((el, i, arr) => {
       if (i < arr.length - 1) {
@@ -52,7 +53,7 @@ export default class SnakeContainer extends React.Component {
       }
     });
     if (selfCollision) {
-      this.props.stateUpdater('self-collision');
+      this.props.stateUpdater("SELF_COLLISION");
   
     }
     else if (wallsCheck) {
@@ -60,7 +61,7 @@ export default class SnakeContainer extends React.Component {
         ...wallsCheck,
         pic: snake[snake.length - 1].pic
       };
-      this.props.stateUpdater('snake', [...snake]);
+      this.props.stateUpdater("SNAKE", [...snake]);
     }
 
   }
@@ -86,7 +87,7 @@ export default class SnakeContainer extends React.Component {
       (buttonChek === "s" && this.props.prevKey !== "w") ||
       (buttonChek === "d" && this.props.prevKey !== "a")
     if (check) {
-      this.props.stateUpdater('snake', buttonChek)
+      this.props.stateUpdater("SNAKE", buttonChek)
     }
   }
 

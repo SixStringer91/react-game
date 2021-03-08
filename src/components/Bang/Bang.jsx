@@ -10,7 +10,7 @@ return (<>
 <div className={css.gameOverWrapper}>
 <div className={css.gameOverTitle}>Game Over
 <div className={css.buttonWrapper}>
-<button type='button' onClick={()=>stateUpdater('gameStart',false)} className={css.returnButton}>Return</button>
+<button type='button' onClick={()=>stateUpdater('GAME_START',false)} className={css.returnButton}>Return</button>
 </div>
 </div>
 </div>

@@ -15,7 +15,7 @@ class Game extends React.Component {
 		super(props);
 		this.state = {
 			areaSizePx: this.props.areaSizePx,
-			gameStart: false,
+			GAME_START: false,
 			paused: false
 		};
 		this.pausing = false;
@@ -92,7 +92,7 @@ class Game extends React.Component {
 		let init = {};
 		if (data.type) {
 			init.bestOfAll = data.result>=userScore ? data.result : userScore;
-			if(init.bestOfAll>data.result)this.stateUpdater('newRecord',init.bestOfAll);
+			if(init.bestOfAll>data.result)this.stateUpdater('NEW_RECORD',init.bestOfAll);
 		
 		};
 		if (this.props.userStorage) {
@@ -103,11 +103,11 @@ class Game extends React.Component {
 				this.hasOwnProperty(keys) || (this[keys] = this.props.userStorage.classProps[keys]);
 			};
 			this.props.soundEffects.music.currentTime = this.props.userStorage.musicCurrentTime;
-			this.stateUpdater('gameStart', true)
+			this.stateUpdater('GAME_START', true)
 		}
 		else {
-			const { gameMode: { mode, difficult, areaSize, gameStart } } = this.props;
-			init.gameStart = gameStart;
+			const { gameMode: { mode, difficult, areaSize, GAME_START } } = this.props;
+			init.GAME_START = GAME_START;
 			switch (difficult) {
 				case "Easy":
 					init.delta = 45;
@@ -191,7 +191,7 @@ class Game extends React.Component {
 			},
 			musicCurrentTime: this.props.soundEffects.music.currentTime
 		};
-		if (this.state.gameStart && this._gameLoop) this.localStorageUpdater("snapshot", propSnap);
+		if (this.state.GAME_START && this._gameLoop) this.localStorageUpdater("snapshot", propSnap);
 
 	}
 
@@ -223,26 +223,26 @@ class Game extends React.Component {
 
 	stateUpdater = (type, data) => {
 		switch (type) {
-			case "apple":
+			case "APPLE":
 				this.nextAppleDirection = data;
 				break;
-			case "apple2":
+			case "APPLE_2":
 				this.nextApple2Direction = data;
 				break;
-			case "snake":
+			case "SNAKE":
 				if (!this.state.paused) this.nextKey = data;
 				break;
-			case "cyberSnake":
+			case "CYBERSNAKE":
 				this.nextCyberHead = data;
 				break;
-			case "game-loop":
+			case "GAME_LOOP":
 				this._gameLoop = data;
 				break;
-			case 'self-collision':
+			case "SELF_COLLISION":
 				this._selfCollision = true;
 				break
 
-			case "cyberSnakeEat":
+			case "CYBERSNAKE_EAT":
 				if (!this.state.paused) {
 					this.cyberScore++;
 					this.props.soundEffects.eat.currentTime = 0;
@@ -252,7 +252,8 @@ class Game extends React.Component {
 					}
 				}
 				break;
-			case "snakeEat":
+			case "SNAKE_EAT":
+				debugger
 				if (!this.state.paused) {
 					this.playerScore++;
 					this.props.soundEffects.eat.currentTime = 0;
@@ -262,10 +263,10 @@ class Game extends React.Component {
 					}
 				}
 				break;
-			case 'gameStart':
+			case "GAME_START":
 				this.makeChange({ type, state: data });
 				break
-			case 'newRecord':
+			case "NEW_RECORD":
 				this.serverRequest('POST', data)
 				break
 		}
@@ -283,7 +284,7 @@ class Game extends React.Component {
 				objState.yourBestScore = this.playerScore;
 				if (this.playerScore > bestOfAll) {
 					objState.bestOfAll = this.playerScore;
-					this.stateUpdater('newRecord', this.playerScore)
+					this.stateUpdater('NEW_RECORD', this.playerScore)
 				}
 			}
 			if (this.nextAppleDirection) {
@@ -301,7 +302,7 @@ class Game extends React.Component {
 				if (this._selfCollision) {
 					const snakeHead = objState.snake[objState.snake.length - 1];
 					objState.bangCoords = snakeHead;
-					this.stateUpdater('game-loop', false)
+					this.stateUpdater('GAME_LOOP', false)
 					this.props.soundEffects.music.currentTime = 0;
 					this.props.soundEffects.music.pause();
 					this.props.soundEffects.bang.play();
@@ -324,7 +325,7 @@ class Game extends React.Component {
 				if (cyberFind || snakeFind) {
 					if (cyberFind) objState.bangCoords = cyberHead;
 					else objState.bangCoords = snakeHead;
-					this.stateUpdater('game-loop', false)
+					this.stateUpdater('GAME_LOOP', false)
 					this.props.soundEffects.music.currentTime = 0;
 					this.props.soundEffects.music.pause();
 					this.props.soundEffects.bang.play();
@@ -403,9 +404,9 @@ class Game extends React.Component {
 		else if (e.keyCode === 82 && this.state.paused) {
 
 			this.props.soundEffects.music.currentTime = 0;
-			this.stateUpdater('game-loop', false);
+			this.stateUpdater('GAME_LOOP', false);
 
-			this.makeChange({ type: 'gameStart', state: false });
+			this.makeChange({ type: 'GAME_START', state: false });
 		}
 	}
 
@@ -419,7 +420,7 @@ class Game extends React.Component {
 			snake,
 			areaSizePx,
 			areaSizeInBlocks,
-			gameStart,
+			GAME_START,
 			cyberSnake,
 			playerScore,
 			yourBestScore,
@@ -430,7 +431,7 @@ class Game extends React.Component {
 		return (
 			<>
 				{
-					gameStart ? (
+					GAME_START ? (
 						<div
 							className={css.gameArea}
 							style={{ width: `${areaSizePx}px`, height: `${areaSizePx}px` }}
@@ -455,7 +456,7 @@ class Game extends React.Component {
 
 							{cyberSnake ? (
 								<CybersnakeContainer
-									method={'cyberSnake'}
+									method={"CYBERSNAKE"}
 									background={'#03045e'}
 									apple={apple}
 									apple2={apple2}
@@ -469,7 +470,7 @@ class Game extends React.Component {
 							{mode === 'Autoplay' ?
 
 								<CybersnakeContainer
-									method={'snake'}
+									method={"SNAKE"}
 									background={'#3A0CA3'}
 									apple={apple}
 									apple2={apple2}
@@ -483,7 +484,7 @@ class Game extends React.Component {
 								: null
 							}
 							<AppleContainer
-								method={'apple'}
+								method={"APPLE"}
 								stateUpdater={this.stateUpdater}
 								state={{ apple, snake, cyberSnake }}
 								secApple={apple2}
@@ -491,7 +492,7 @@ class Game extends React.Component {
 								areaSizeInBlocks={areaSizeInBlocks}
 							/>
 							<AppleContainer
-								method={'apple2'}
+								method={"APPLE_2"}
 								stateUpdater={this.stateUpdater}
 								state={{
 									apple: apple2, snake, cyberSnake

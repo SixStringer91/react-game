@@ -69,7 +69,7 @@ class App extends React.Component {
             <button onClick={() => this.makeChange({ type: 'fullScreen', state: !fullScreen})} type='button' className={css.fullScreen}>FullScreen</button>
             </div>
             <div className={css.buttonWrapper}>
-            <button onClick={() => this.makeChange({ type: 'gameStart', state: true })} type='button' className={css.start}>Start</button>
+            <button onClick={() => this.makeChange({ type: 'GAME_START', state: true })} type='button' className={css.start}>Start</button>
             </div>
 
           </div>

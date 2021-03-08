@@ -18,7 +18,7 @@ class App extends React.Component {
 			mode: "Versus",
 			difficult: "Normal",
 			areaSize: "Normal",
-			gameStart: false,
+			GAME_START: false,
 			snakeLength: 3,
 			musicValue: 50,
 			effectsValue: 50,
@@ -38,7 +38,7 @@ class App extends React.Component {
 			state: this.ref.current.clientHeight,
 		});
 		window.addEventListener("resize", this.resizeWin);
-		if (this.state.userStorage) this.setState({ gameStart: true });
+		if (this.state.userStorage) this.setState({ GAME_START: true });
 
 		document.addEventListener("webkitfullscreenchange",(e)=>{
 			if (this.state.fullScreen&&!document.fullscreenElement) {
@@ -60,7 +60,7 @@ class App extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (prevState.gameStart !== this.state.gameStart) {
+		if (prevState.GAME_START !== this.state.GAME_START) {
 			const soundArrayCopy = this.soundArray.map((el) => {
 				el.volume = this.state.effectsValue / 100;
 				return el;
@@ -68,7 +68,7 @@ class App extends React.Component {
 			this.soundArray = [...soundArrayCopy];
 			if (this.state.musicValue && !this.state.userStorage) {
 				this.music.volume = this.state.musicValue / 100;
-				this.state.gameStart ? this.music.play() : this.music.pause();
+				this.state.GAME_START ? this.music.play() : this.music.pause();
 			}
 		}
 		this.fullScreenHandler();
@@ -156,7 +156,7 @@ class App extends React.Component {
 		const {
 			userStorage,
 			fullScreen,
-			gameStart,
+			GAME_START,
 			mode,
 			difficult,
 			areaSize,
@@ -168,13 +168,13 @@ class App extends React.Component {
 		return (
 			<div ref={this.bgRef} className={css.backGround}>
 				<div onClick={this.musicFunc} ref={this.ref} className={css.gameArea}>
-					{gameStart ? (
+					{GAME_START ? (
 						<>
 							<Game
 								userStorage={userStorage}
 								soundEffects={{ eat, bang, music: this.music }}
 								makeChange={this.makeChange}
-								gameMode={{ gameStart, mode, difficult, areaSize }}
+								gameMode={{ GAME_START, mode, difficult, areaSize }}
 								areaSizePx={areaSizePx}
 							/>
 						</>
