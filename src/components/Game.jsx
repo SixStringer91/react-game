@@ -100,7 +100,7 @@ class Game extends React.Component {
 			this.pausing = true;
 			init.paused = true;
 			for (let keys in this.props.userStorage.classProps) {
-				this.hasOwnProperty(keys) || (this[keys] = this.props.userStorage.classProps[keys]);
+		 		this[keys] = this.props.userStorage.classProps[keys];
 			};
 			this.props.soundEffects.music.currentTime = this.props.userStorage.musicCurrentTime;
 			this.stateUpdater('GAME_START', true)
@@ -253,7 +253,6 @@ class Game extends React.Component {
 				}
 				break;
 			case "SNAKE_EAT":
-				debugger
 				if (!this.state.paused) {
 					this.playerScore++;
 					this.props.soundEffects.eat.currentTime = 0;
