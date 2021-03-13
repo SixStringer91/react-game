@@ -54,7 +54,7 @@ export default class SnakeContainer extends React.Component {
     });
     if (selfCollision) {
       this.props.stateUpdater("SELF_COLLISION");
-  
+
     }
     else if (wallsCheck) {
       snake[snake.length - 1] = {

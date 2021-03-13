@@ -12,16 +12,16 @@ export default class AppleContainer extends React.Component {
 
   componentDidUpdate({ state: { apple: prevApple } }) {
     const { apple, snake, cyberSnake } = this.props.state
-    if(snake){
+    if (snake) {
       this.isCollision(snake);
     }
-  
-  if(cyberSnake){
-      this.isCollision(cyberSnake);   
+
+    if (cyberSnake) {
+      this.isCollision(cyberSnake);
     }
   }
   isCollision = (someSnake) => {
-    const { state:{apple}, method } = this.props;
+    const { state: { apple }, method } = this.props;
     const { x, y } = someSnake[someSnake.length - 1];
     if (y === apple.y && x === apple.x) {
       this.props.stateUpdater(method, this.appleNewDirection())
@@ -36,8 +36,8 @@ export default class AppleContainer extends React.Component {
       const y = Math.floor(Math.random() * (areaSizeInBlocks - 1));
       const isCyberSnake = cyberSnake ? !cyberSnake.find((obj) => obj.x === x && obj.y === y) : true;
       const isSnake = snake ? !snake.find((obj) => obj.x === x && obj.y === y) : true;
-      const isSecApple = secApple ? x!==secApple.x&&y!==secApple.y : true
-      if (isCyberSnake && isSnake&&isSecApple) {
+      const isSecApple = secApple ? x !== secApple.x && y !== secApple.y : true
+      if (isCyberSnake && isSnake && isSecApple) {
         return { x, y };
       }
     }

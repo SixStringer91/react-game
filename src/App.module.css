@@ -1,138 +1,130 @@
-
-.backGround{
-  min-height:100vh;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  min-width: 100%;
-  background: #370982;
-  box-shadow: 0 -140px 70px -120px #D70865 inset,
-              0 -210px 70px -120px #8D127A inset,
-              0 -280px 70px -120px #430987 inset;
-  /* animation: background 10s infinite alternate; */
-  
+.backGround {
+    min-height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    min-width: 100%;
+    background: #370982;
+    box-shadow: 0 -140px 70px -120px #D70865 inset, 0 -210px 70px -120px #8D127A inset, 0 -280px 70px -120px #430987 inset;
 }
 
+.gameArea {
+    margin-top: 60px;
+    position: relative;
+    border: 10px solid #1373DF;
+    border-radius: 20px;
+    width: 768px;
+    height: 768px;
+    background: rgba(18, 179, 228, 0.2);
+    ;
+}
 
+.footer {
+    height: 60px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.container {
+    height: 100%;
+    width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container div {
+    height: 90%;
+}
+
+.me img {
+    border-radius: 50%;
+}
+
+.container img {
+    height: 90%;
+    display: block;
+}
+
+.date {
+    font-family: "Neon";
+    font-size: 10px;
+    margin-right: auto;
+    color: #370982
+}
+
+@media (max-width: 1024px) {
+    .gameArea {
+        border: 5px solid #1373DF;
+        border-radius: 10px;
+        width: 680px;
+        height: 680px;
+    }
+    .container {
+        height: 100%;
+        width: 650px;
+    }
+}
+
+@media (min-width: 1100px) and (min-height: 900px) {
+    .gameArea {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 400px) and (max-height: 900px) {
+    .gameArea {
+        margin-top: 40px;
+    }
+}
+
+@media (min-width: 400px) and (max-height: 800px) {
+    .gameArea {
+        margin-top: 0px;
+    }
+}
+
+@media (max-width: 680px) {
+    .gameArea {
+        border: 5px solid #1373DF;
+        border-radius: 10px;
+        width: 500px;
+        height: 500px;
+    }
+    .container {
+        width: 480px;
+    }
+}
+
+@media (max-width: 521px) {
+    .gameArea {
+        border: 5px solid #1373DF;
+        border-radius: 10px;
+        width: 450px;
+        height: 450px;
+    }
+    .container {
+        width: 430px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gameArea {
+        border: 5px solid #1373DF;
+        border-radius: 10px;
+        width: 420px;
+        height: 420px;
+    }
+    .container {
+        width: 400px;
+    }
+}
 
 @keyframes background {
-  50% {
-    background: #12B3E4;
-  box-shadow: 0 -150px 70px -120px #1373DF inset,
-              0 -220px 70px -120px #1439DA inset,
-              0 -280px 70px -120px #1439DA inset;
-  }
-}
-
-
-.gameArea{
-  margin-top: 60px;
-  position: relative;
-  border: 10px solid #1373DF;
-  border-radius:20px;
-  width: 768px;
-  height: 768px;
-  background: rgba(18, 179, 228, 0.2);;
-}
-
-.footer{
-  height: 60px;
-  width: 100%;
-  margin-top: auto;
-}
-.container{
-  height: 100%;
-  width: 700px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.container div{
-  height: 90%;
-}
-.me img {
-  border-radius: 50%;
-}
-.container img {
-  height: 90%;
-  display: block;
-}
-
-.date{
-  font-family: "Neon";
-  font-size: 10px;
-  margin-right: auto;
-  color: #370982
-}
-
-@media (max-width: 1024px){
-
-  .gameArea{
-    border: 5px solid #1373DF;
-    border-radius:10px;
-    width: 680px;
-    height: 680px;
-  }
-  .container{
-    height: 100%;
-    width: 650px;
-  }
-}
-
-@media (min-width: 1100px) and  (min-height: 900px){
-  .gameArea{
-    margin-top:10px;}
-}
-@media (min-width: 400px) and (max-height: 900px){
-  .gameArea{
-    margin-top:40px;}
-}
-
-@media (min-width: 400px) and (max-height: 800px){
-  .gameArea{
-    margin-top:0px;}
-}
-
-
-@media (max-width: 680px){
-
-  .gameArea{
-    border: 5px solid #1373DF;
-    border-radius:10px;
-    width: 500px;
-    height: 500px;
-  }
-  .container{
-    width: 480px;
-  }
-
-}
-
-@media (max-width: 521px){
-
-  .gameArea{
-    border: 5px solid #1373DF;
-    border-radius:10px;
-    width: 450px;
-    height: 450px;
-  }
-  .container{
-    width: 430px;
-  }
-}
-
-
-@media (max-width: 480px){
-
-  .gameArea{
-    border: 5px solid #1373DF;
-    border-radius:10px;
-    width: 420px;
-    height: 420px;
-  }
-  .container{
-    width: 400px;
-  }
+    50% {
+        background: #12B3E4;
+        box-shadow: 0 -150px 70px -120px #1373DF inset, 0 -220px 70px -120px #1439DA inset, 0 -280px 70px -120px #1439DA inset;
+    }
 }

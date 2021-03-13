@@ -91,9 +91,9 @@ class Game extends React.Component {
 		const userScore = JSON.parse(window.localStorage.getItem(this.props.gameMode.mode.toLowerCase())) || 0;
 		let init = {};
 		if (data.type) {
-			init.bestOfAll = data.result>=userScore ? data.result : userScore;
-			if(init.bestOfAll>data.result)this.stateUpdater('NEW_RECORD',init.bestOfAll);
-		
+			init.bestOfAll = data.result >= userScore ? data.result : userScore;
+			if (init.bestOfAll > data.result) this.stateUpdater('NEW_RECORD', init.bestOfAll);
+
 		};
 		if (this.props.userStorage) {
 			init = { ...this.props.userStorage.state }
@@ -276,7 +276,7 @@ class Game extends React.Component {
 		const objState = {};
 		const { paused, mode, snake, cyberSnake, yourBestScore, bestOfAll } = this.state;
 
-		
+
 
 		if (!paused) {
 			if (this.playerScore > yourBestScore) {

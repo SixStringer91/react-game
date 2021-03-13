@@ -1,39 +1,39 @@
- .playerScore{
-   display: flex;
-   justify-content: space-between;
+ .playerScore {
+     display: flex;
+     justify-content: space-between;
  }
  
- .scoreElement{
-   display: flex;
+ .scoreElement {
+     display: flex;
  }
  
- .playerScore .scoreElement div{
-  opacity: 0.6;
- color: #D70865;
- font-size: 30px;
- margin-left: 10px;
- font-family: "Neon";
- }
-
- .tabloid{
-   width: 30px;
-   margin-right: 10px;
+ .playerScore .scoreElement div {
+     opacity: 0.6;
+     color: #D70865;
+     font-size: 30px;
+     margin-left: 10px;
+     font-family: "Neon";
  }
  
- @media (max-width: 1024px){
-  .playerScore .scoreElement div {
-    font-size:20px;
-    }
-   
+ .tabloid {
+     width: 30px;
+     margin-right: 10px;
  }
-@media (max-width: 680px){
-  .playerScore .scoreElement div {
-    font-size:15px;
-    }
-}
-
-@media (max-width: 521px){
-  .playerScore .scoreElement div {
-    font-size:10px;
-    }
-}
+ 
+ @media (max-width: 1024px) {
+     .playerScore .scoreElement div {
+         font-size: 20px;
+     }
+ }
+ 
+ @media (max-width: 680px) {
+     .playerScore .scoreElement div {
+         font-size: 15px;
+     }
+ }
+ 
+ @media (max-width: 521px) {
+     .playerScore .scoreElement div {
+         font-size: 10px;
+     }
+ }

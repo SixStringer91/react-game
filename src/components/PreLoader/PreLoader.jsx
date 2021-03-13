@@ -3,9 +3,9 @@ import loader from '../../img/preloader.svg'
 import css from './PreLoader.module.css'
 
 
-const PreLoader = () =>{
+const PreLoader = () => {
   return (<div className={css.preloaderWrapper}>
-<img src={loader} alt=""/>
+    <img src={loader} alt="" />
   </div>)
 }
 
