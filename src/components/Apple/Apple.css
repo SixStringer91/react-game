@@ -1,0 +1,25 @@
+.apple {
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 1;
+    display: block;
+}
+
+.active {
+    animation: 0.4s ease-out fadeIn 1;
+}
+
+.noActive {
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        display: none;
+    }
+    100% {
+        opacity: 1;
+        display: block;
+    }
+}

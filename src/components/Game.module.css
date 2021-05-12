@@ -1,0 +1,21 @@
+.gameArea {
+    width: 100%;
+    height: 100%;
+}
+
+.playerScore {
+    display: flex;
+    justify-content: space-between;
+}
+
+.scoreElement {
+    display: flex;
+}
+
+.playerScore .scoreElement div {
+    opacity: 0.6;
+    color: #D70865;
+    font-size: 30px;
+    margin-left: 10px;
+    font-family: "Neon";
+}

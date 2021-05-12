@@ -1,0 +1,240 @@
+.MainMenu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 50px;
+}
+
+.title {
+    font-size: 30px;
+    text-align: center;
+    font-family: "Streamster";
+    color: #F94E9B;
+    text-shadow: 1px 1px 2px #fdc500;
+}
+
+.logo {
+    text-align: center;
+    font-family: "RoadRage";
+    color: #fdc500;
+    font-size: 20px;
+    text-shadow: 2px 2px 2px #5c223b
+}
+
+.menuItems {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+a {
+    font-family: "Neon";
+    color: #F94E9B;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.itemWrapper {
+    display: inline-block;
+    overflow: hidden;
+    font-size: 15px;
+    width: 150px;
+    text-align: center;
+    border-radius: 5px;
+    transition: all .5s;
+}
+
+.chosen {
+    background-color: #fdc500;
+    transform: scale(1.3);
+    transition: background-color 1s;
+}
+
+.itemWrapper:hover {
+    transform: scale(1.3);
+    transition: transform .2s ease;
+}
+
+.slideContainer {
+    padding: 40px 0 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    font-family: "Neon";
+}
+
+.effectContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #F94E9B;
+}
+
+.inputWrapper {
+    width: max-content;
+}
+
+.effectContainer span {
+    display: block;
+    width: 150px;
+    text-align: center;
+    height: 100%;
+}
+
+.slideContainer input {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.enableSound {
+    background-color: #fdc500;
+    text-align: center;
+    width: 40px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.otherSettings {
+    margin-top: 20px;
+    margin-right: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.buttonWrapper {
+    width: 50%;
+}
+
+.fullScreen {
+    background-color: #fdc500;
+    color: #F94E9B;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px 0;
+    font-family: "Neon";
+    width: 100px;
+    font-size: 20px;
+    margin: 0 auto;
+    border: 2px solid;
+    border-radius: 20px;
+    color: #F94E9B;
+}
+
+.buttonWrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:hover {
+    transform: scale(1.3);
+    transition: all .2s;
+}
+
+@media (max-width: 1024px) {
+    .logo {
+        font-size: 15px;
+    }
+    .title {
+        font-size: 25px;
+    }
+    .itemWrapper {
+        font-size: 12px;
+        width: 125px;
+        border-radius: 4px;
+    }
+    .menuItems {
+        margin-bottom: 8px;
+    }
+    .slideContainer {
+        padding: 30px 0 0;
+        font-size: 15px;
+    }
+    .effectContainer span {
+        width: 120px;
+    }
+}
+
+@media (max-width: 680px) {
+    .logo {
+        font-size: 10px;
+    }
+    .title {
+        font-size: 20px;
+    }
+    .itemWrapper {
+        font-size: 10px;
+        width: 115px;
+        border-radius: 3px;
+    }
+    .menuItems {
+        margin-bottom: 7px;
+    }
+    .slideContainer {
+        padding: 25px 0 0;
+        font-size: 10px;
+        flex-direction: column;
+    }
+    .slideContainer div+div {
+        margin-top: 5px;
+    }
+    .enableSound a {
+        line-height: 18px;
+    }
+}
+
+@media (max-width: 521px) {
+    button {
+        padding: 6px 0;
+        width: 100px;
+        font-size: 15;
+        border-radius: 20px;
+    }
+    .enableSound {
+        width: 40px;
+        padding: 1px 5px;
+        border-radius: 5px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .enableSound a {
+        line-height: 18px;
+    }
+    .otherSettings {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 10px;
+    }
+    button {
+        padding: 4px 0;
+        width: 100px;
+        font-size: 1;
+        border-radius: 20px;
+    }
+    .enableSound {
+        width: 30px;
+        padding: 1px 4px;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+    .enableSound a {
+        line-height: 15px;
+    }
+    .itemWrapper {
+        width: 80px;
+    }
+    .otherSettings {
+        margin-top: 7px;
+    }
+}
