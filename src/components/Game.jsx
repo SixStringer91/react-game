@@ -31,15 +31,11 @@ class Game extends React.Component {
 		this.nextCyberHead = null;
 		this.nextAppleDirection = null;
 		this.nextApple2Direction = null;
-
 	}
-
-
 
 	componentDidMount() {
 
 		this.serverRequest('GET').then(data => {
-
 			this.setState(this.setGameMode(data), () => {
 				this.loop(this.snakeEngine);
 				window.addEventListener('beforeunload', this.updateStateInStorage);
@@ -50,7 +46,7 @@ class Game extends React.Component {
 
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		if (this.props.areaSizePx !== this.state.areaSizePx) {
 			this.setState({ areaSizePx: this.props.areaSizePx })
 		}
@@ -70,7 +66,6 @@ class Game extends React.Component {
 			return request
 		}
 		else if (method === 'POST') {
-			debugger
 			const body = {
 				type: this.props.gameMode.mode.toLowerCase(),
 				result: data
@@ -100,7 +95,7 @@ class Game extends React.Component {
 			this.pausing = true;
 			init.paused = true;
 			for (let keys in this.props.userStorage.classProps) {
-		 		this[keys] = this.props.userStorage.classProps[keys];
+				this[keys] = this.props.userStorage.classProps[keys];
 			};
 			this.props.soundEffects.music.currentTime = this.props.userStorage.musicCurrentTime;
 			this.stateUpdater('GAME_START', true)
@@ -118,6 +113,7 @@ class Game extends React.Component {
 				case "Hard":
 					init.delta = 10;
 					break;
+				default:
 			}
 			switch (areaSize) {
 				case "Small":
@@ -129,6 +125,7 @@ class Game extends React.Component {
 				case "Big":
 					init.areaSizeInBlocks = 60;
 					break;
+				default:
 			}
 			init.apple = {};
 			init.apple2 = {};
@@ -268,6 +265,7 @@ class Game extends React.Component {
 			case "NEW_RECORD":
 				this.serverRequest('POST', data)
 				break
+			default:
 		}
 	};
 
@@ -385,6 +383,7 @@ class Game extends React.Component {
 			case "d":
 				x = head.x + 1 > size ? 0 : head.x + 1;
 				break;
+			default:
 		}
 		return { x, y };
 	};
