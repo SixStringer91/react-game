@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100%;
     border-radius: 50px;
+    animation: emergence 1s;
 }
 
 .title {
@@ -236,5 +237,16 @@ button:hover {
     }
     .otherSettings {
         margin-top: 7px;
+    }
+}
+
+@keyframes emergence {
+    0%{
+        opacity: 0;
+        display: none;
+    }
+    100%{
+        opacity: 1;
+        display: block;
     }
 }

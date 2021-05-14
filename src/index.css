@@ -14,7 +14,7 @@ code {
     src: url("./fonts/Streamster.woff2") format("woff2"), url("./fonts/Streamster.woff") format("woff");
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
@@ -22,7 +22,7 @@ code {
     src: url("./fonts/RoadRage.woff2") format("woff2"), url("./fonts/RoadRage.woff") format("woff");
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
@@ -30,5 +30,5 @@ code {
     src: url("./fonts/Neon.woff2") format("woff2"), url("./fonts/Neon.woff") format("woff");
     font-weight: 300;
     font-style: normal;
-    font-display: swap;
+    font-display: block;
 }
